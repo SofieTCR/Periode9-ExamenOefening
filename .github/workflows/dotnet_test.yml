@@ -25,5 +25,8 @@ jobs:
           uses: EnricoMi/publish-unit-test-result-action/windows@v2
           if: always()
           with:
-            trx_files: "./AppCode/OnlineElectionControlTests/TestResults/tests.trx"
+            files: |
+              test-results\**\*.xml
+              test-results\**\*.trx
+              test-results\**\*.json
 
