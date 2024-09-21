@@ -25,4 +25,4 @@ jobs:
           uses: EnricoMi/publish-unit-test-result-action/windows@v2
           if: always()
           with:
-            trx_files: "/home/runner/work/Periode9-ExamenOefening/Periode9-ExamenOefening/AppCode/OnlineElectionControlTests/TestResults/xtests.trx"
+            trx_files: "/home/runner/work/Periode9-ExamenOefening/Periode9-ExamenOefening/AppCode/OnlineElectionControlTests/TestResults/tests.trx"
