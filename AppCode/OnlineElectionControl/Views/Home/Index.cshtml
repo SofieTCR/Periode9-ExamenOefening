@@ -1,0 +1,16 @@
+﻿@model HomeModel
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+<h1">Welcome</h1>
+<p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+
+<!-- small example on how to incorporate c# in to the razor page.
+You normally wouldn't really call any methods from the model here -->
+@foreach(string section in Model.SplitOnT("Some text with many t's to split on"))
+{
+    <p>The received bit of string was: @(section)</p>
+    <br>
+}

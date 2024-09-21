@@ -1,0 +1,24 @@
+name: dotnet_Testing
+
+on:
+    push:
+        branches: [ "main" ]
+    pull_request:
+
+jobs:
+    build:
+        runs-on: windows-latest
+        steps:
+        - name: Checkout
+          uses: actions/checkout@v3
+        - name: Setup .NET
+          uses: actions/setup-dotnet@v3
+          with:
+            dotnet-version: 8.0.x
+        - name: Restore dependencies
+          run: dotnet restore ./AppCode/OnlineElectionControl.sln
+        - name: Build
+          run: dotnet build ./AppCode/OnlineElectionControl.sln --no-restore
+        - name: Test
+          run: dotnet test ./AppCode/OnlineElectionControlTests/OnlineElectionControl.Tests.csproj --no-build --verbosity normal --logger "trx;LogFileName=tests.trx"
+

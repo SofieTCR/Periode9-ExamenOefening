@@ -1,0 +1,5 @@
+AppCode/.vs
+AppCode/**/bin
+AppCode/**/obj
+AppCode/**/packages
+AppCode/**/*.user
