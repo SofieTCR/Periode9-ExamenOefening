@@ -1,0 +1,34 @@
+User:
+P Id
+- Name
+- Password Hash
+- First Name
+- Last Name
+- Email Address
+- Birthdate
+
+Party:
+P Id
+- Name
+- Abbreviation
+F Leader_UserId
+
+PartyMember:
+P UserId
+P PartyId
+
+Election:
+P Id
+- Name
+- Description
+- Date
+
+ElectableMembers:
+P ElectionId
+P UserId
+- Index
+
+Vote:
+P ElectionId
+- Elected_UserId
+P Voter_UserId 
