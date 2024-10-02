@@ -8,6 +8,7 @@
 
   <ItemGroup>
     <PackageReference Include="BuildWebCompiler" Version="1.12.405" />
+    <PackageReference Include="MySql.Data" Version="9.0.0" />
   </ItemGroup>
 
   <ItemGroup>
