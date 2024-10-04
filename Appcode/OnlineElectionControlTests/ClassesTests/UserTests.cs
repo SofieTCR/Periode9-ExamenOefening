@@ -1,6 +1,7 @@
 ﻿using Xunit;
 using FluentAssertions;
 using OnlineElectionControl.Classes;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.ObjectModel;
 
 namespace OnlineElectionControl.Tests.ClassesTests
 {
@@ -16,7 +17,6 @@ namespace OnlineElectionControl.Tests.ClassesTests
         {
             // Arrange
             var tmpUser = new User(pUsername: "username"
-                                 , pPassword: "password"
                                  , pFirstName: pFirstName
                                  , pLastName: "lastname"
                                  , pEmail: "email"
@@ -42,7 +42,6 @@ namespace OnlineElectionControl.Tests.ClassesTests
         {
             // Arrange
             var tmpUser = new User(pUsername: "username"
-                                 , pPassword: "password"
                                  , pFirstName: pName[0]
                                  , pLastName: pName[1]
                                  , pEmail: "email"
@@ -70,7 +69,6 @@ namespace OnlineElectionControl.Tests.ClassesTests
             var tmpBirthdate = new DateTime(year: pBirthdate[0], month: pBirthdate[1], day: pBirthdate[2]);
             var tmpReferenceDate = new DateTime(year: pReferenceDate[0], month: pReferenceDate[1], day: pReferenceDate[2]);
             var tmpUser = new User(pUsername: "username"
-                                 , pPassword: "password"
                                  , pFirstName: "firstname"
                                  , pLastName: "lastname"
                                  , pEmail: "email"
@@ -84,6 +82,109 @@ namespace OnlineElectionControl.Tests.ClassesTests
 
             // Assert
             result.Should().Be(pResult);
+        }
+
+        [Theory]
+        [InlineData("Password1")]
+        [InlineData("SomeWord26")]
+        [InlineData("FakeWords00!")]
+        [InlineData("ActualPassword22?!")]
+        [InlineData("Super-Secure-Luxorious-Password-22")]
+        public void User_SetPassword_CorrectPassword(string pPassword)
+        {
+            // Arrange
+            var tmpUser = new User(pUsername: "username"
+                                 , pFirstName: "firstname"
+                                 , pLastName: "lastname"
+                                 , pEmail: "email"
+                                 , pBirthdate: DateTime.Now
+                                 , pCity: "city"
+                                  );
+
+            // Act
+            var result = tmpUser.SetPassword(pPassword: pPassword);
+
+            // Assert
+            result.Should().Be(true);
+            tmpUser.Vml.Should().BeEmpty();
+        }
+
+        [Theory]
+        [InlineData("Password", new[] { "Password must contain a number!" })]
+        [InlineData("password", new[] { "Password must contain a number!", "Password must contain an uppercase character!" })]
+        [InlineData("pass", new[] { "Password must contain a number!", "Password must contain an uppercase character!", "Password is too short!" })]
+        [InlineData("----", new[] { "Password must contain a number!", "Password must contain an uppercase character!", "Password must contain a lowercase character!", "Password is too short!" })]
+        public void User_SetPassword_IncorrectPassword(string pPassword, string[] issues)
+        {
+            // Arrange
+            var tmpUser = new User(pUsername: "username"
+                                 , pFirstName: "firstname"
+                                 , pLastName: "lastname"
+                                 , pEmail: "email"
+                                 , pBirthdate: DateTime.Now
+                                 , pCity: "city"
+                                  );
+
+            // Act
+            var result = tmpUser.SetPassword(pPassword: pPassword);
+
+            // Assert
+            result.Should().Be(false);
+            tmpUser.Vml.Should().NotBeEmpty();
+            tmpUser.Vml.Should().HaveCount(issues.Length);
+            foreach ( var issue in issues )
+            {
+                tmpUser.Vml.Should().Contain(issue);
+            }
+        }
+
+        [Theory]
+        [InlineData("Password1")]
+        [InlineData("SomeWord26")]
+        [InlineData("FakeWords00!")]
+        [InlineData("ActualPassword22?!")]
+        [InlineData("Super-Secure-Luxorious-Password-22")]
+        public void User_VerifyPassword_CorrectPassword(string pPassword)
+        {
+            // Arrange
+            var tmpUser = new User(pUsername: "username"
+                                 , pFirstName: "firstname"
+                                 , pLastName: "lastname"
+                                 , pEmail: "email"
+                                 , pBirthdate: DateTime.Now
+                                 , pCity: "city"
+                                  );
+
+            // Act
+            tmpUser.SetPassword(pPassword: pPassword);
+            var result = tmpUser.VerifyPassword(pPassword: pPassword);
+
+            // Assert
+            result.Should().Be(true);
+            tmpUser.Vml.Should().BeEmpty();
+        }
+
+        [Theory]
+        [InlineData("Password1", "Incorrect1")]
+        [InlineData("FakeWords00!", "RealWords22?")]
+        public void User_VerifyPassword_IncorrectPassword(string pPassword, string pFalsePassword)
+        {
+            // Arrange
+            var tmpUser = new User(pUsername: "username"
+                                 , pFirstName: "firstname"
+                                 , pLastName: "lastname"
+                                 , pEmail: "email"
+                                 , pBirthdate: DateTime.Now
+                                 , pCity: "city"
+                                  );
+
+            // Act
+            tmpUser.SetPassword(pPassword: pPassword);
+            var result = tmpUser.VerifyPassword(pPassword: pFalsePassword);
+
+            // Assert
+            result.Should().Be(false);
+            tmpUser.Vml.Should().BeEmpty();
         }
     }
 }
