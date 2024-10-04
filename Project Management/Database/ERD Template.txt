@@ -1,11 +1,12 @@
 User:
 P Id
-- Name
+- Username
 - Password Hash
 - First Name
 - Last Name
 - Email Address
 - Birthdate
+- City
 
 Party:
 P Id

@@ -4,34 +4,37 @@ namespace OnlineElectionControl.Classes
 {
     public static class Database
     {
-        private static MySqlConnection? connection;
+        private static MySqlConnection? _connection;
 
-        private static void ConnectDatabase()
+        private static MySqlConnection Connection
         {
-            if (connection == null)
+            get
             {
-                connection = new MySqlConnection("server=localhost;"
-                                               + "database=onlineelectioncontrol;"
-                                               + "userid=root;"
-                                               + "password=;");
+                if (_connection == null)
+                {
+                    _connection = new MySqlConnection("server=localhost;"
+                                                    + "database=onlineelectioncontrol;"
+                                                    + "userid=root;"
+                                                    + "password=;");
+                }
+                return _connection;
             }
         }
 
-        public static List<Dictionary<string, object>> ExecuteQuery(string query, Dictionary<string, object>? parameters = null)
+        public static List<Dictionary<string, object>> ExecuteQuery(string pQuery, Dictionary<string, object>? pParameters = null)
         {
             List<Dictionary<string, object>> rows = new();
             MySqlDataReader? result = null;
 
             try
             {
-                ConnectDatabase();
-                connection!.Open();
+                Connection.Open();
 
-                using (var command = new MySqlCommand(query, connection))
+                using (var command = new MySqlCommand(pQuery, Connection))
                 {
-                    if (parameters != null)
+                    if (pParameters != null)
                     {
-                        foreach (var param in parameters)
+                        foreach (var param in pParameters)
                         {
                             command.Parameters.AddWithValue(param.Key, param.Value);
                         }
@@ -65,26 +68,25 @@ namespace OnlineElectionControl.Classes
             finally
             {
                 result?.Close();
-                connection!.Close();
+                Connection.Close();
             }
 
             return rows;
         }
 
-        public static int ExecuteNonQuery(string query, Dictionary<string, object>? parameters = null)
+        public static int ExecuteNonQuery(string pQuery, Dictionary<string, object>? pParameters = null)
         {
             int affectedRows = 0;
 
             try
             {
-                ConnectDatabase();
-                connection!.Open();
+                Connection.Open();
 
-                using (var command = new MySqlCommand(query, connection))
+                using (var command = new MySqlCommand(pQuery, Connection))
                 {
-                    if (parameters != null)
+                    if (pParameters != null)
                     {
-                        foreach (var param in parameters)
+                        foreach (var param in pParameters)
                         {
                             command.Parameters.AddWithValue(param.Key, param.Value);
                         }
@@ -99,7 +101,7 @@ namespace OnlineElectionControl.Classes
             }
             finally
             {
-                connection!.Close();
+                Connection.Close();
             }
 
             return affectedRows;
