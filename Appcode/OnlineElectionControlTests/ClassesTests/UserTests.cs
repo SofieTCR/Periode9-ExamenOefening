@@ -1,7 +1,6 @@
 ﻿using Xunit;
 using FluentAssertions;
 using OnlineElectionControl.Classes;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities.ObjectModel;
 
 namespace OnlineElectionControl.Tests.ClassesTests
 {

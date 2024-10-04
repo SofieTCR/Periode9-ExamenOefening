@@ -1,4 +1,5 @@
-﻿using System.Text.RegularExpressions;
+﻿using Mysqlx.Resultset;
+using System.Text.RegularExpressions;
 
 namespace OnlineElectionControl.Classes
 {
@@ -210,6 +211,99 @@ namespace OnlineElectionControl.Classes
         public bool VerifyPassword(string pPassword)
         {
             return BCrypt.Net.BCrypt.Verify(pPassword, Password);
+        }
+
+        public bool Save()
+        {
+            if (!ValidateObject()) return false;
+
+            string tmpQuery = string.Empty;
+            var tmpParameters = new Dictionary<string, object>
+            {
+                { "@UserId", UserId }
+              , { "@Username", Username }
+              , { "@Password", Password }
+              , { "@Firstname", FirstName }
+              , { "@Lastname", LastName }
+              , { "@Email", Email }
+              , { "@Birthdate", Birthdate }
+              , { "@City", City }
+            };
+            if (UserId == null)
+            {
+                // Create New
+                tmpQuery = @"INSERT INTO `user` (Username
+                                               , Password
+                                               , Firstname
+                                               , Lastname
+                                               , Email
+                                               , Birthdate
+                                               , City)
+                                         VALUES (@Username
+                                               , @Password
+                                               , @Firstname
+                                               , @Lastname
+                                               , @Email
+                                               , @Birthdate
+                                               , @City);
+                             SELECT LAST_INSERT_ID();";
+
+                var tmpResultingId = Database.ExecuteQuery(pQuery: tmpQuery, pParameters: tmpParameters);
+
+                if (tmpResultingId.Count != 1) throw new Exception("Did not receive the insertion id back from the database!");
+
+                UserId = Convert.ToInt32(tmpResultingId[0]["LAST_INSERT_ID()"]);
+            }
+            else
+            {
+                // Update existing
+                tmpQuery = @"UPDATE `user` SET Username = @Username
+                                             , Password = @Password
+                                             , Firstname = @Firstname
+                                             , Lastname = @Lastname
+                                             , Email = @Email
+                                             , Birthdate = @Birthdate
+                                             , City = @City 
+                                         WHERE Id = @UserId;";
+
+                if (Database.ExecuteNonQuery(pQuery: tmpQuery, pParameters: tmpParameters) != 1) throw new Exception("Something went wrong during the execution of the non-query!");
+            }
+
+            return true;
+        }
+
+        public static List<User> GetList(DateTime? pReferenceDate = null)
+        {
+            List<User> tmpUsers = new List<User>();
+            var tmpQuery = @"SELECT Id AS UserId,
+                                    Username,
+                                    Password,
+                                    FirstName,
+                                    LastName,
+                                    Email,
+                                    Birthdate,
+                                    City
+                               FROM `user`;";
+
+            var tmpList = Database.ExecuteQuery(pQuery: tmpQuery);
+
+            foreach (var user in tmpList)
+            {
+                var tmpUser = new User(pId: (int) user[nameof(UserId)]
+                                     , pUsername: (string) user[nameof(Username)]
+                                     , pPassword: (string) user[nameof(Password)]
+                                     , pFirstName: (string) user[nameof(FirstName)]
+                                     , pLastName: (string) user[nameof(LastName)]
+                                     , pEmail: (string) user[nameof(Email)]
+                                     , pBirthdate: (DateTime) user[nameof(Birthdate)]
+                                     , pCity: (string) user[nameof(City)]);
+
+                if (pReferenceDate != null) tmpUser.ReferenceDate = (DateTime) pReferenceDate;
+
+                tmpUsers.Add(tmpUser);
+            }
+
+            return tmpUsers;
         }
     }
 }
