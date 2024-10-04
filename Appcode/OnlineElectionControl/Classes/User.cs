@@ -272,6 +272,17 @@ namespace OnlineElectionControl.Classes
             return true;
         }
 
+        public bool Delete()
+        {
+            if (UserId == null) return false;
+
+            var tmpQuery = @"DELETE FROM `user` WHERE Id = @UserId";
+            var tmpParameters = new Dictionary<string, object> { { "@UserId", UserId } };
+
+            if (Database.ExecuteNonQuery(pQuery: tmpQuery, pParameters: tmpParameters) != 1) throw new Exception("Something went wrong during the execution of the non-query!");
+            return true;
+        }
+
         public static List<User> GetList(DateTime? pReferenceDate = null)
         {
             List<User> tmpUsers = new List<User>();
