@@ -121,6 +121,8 @@ namespace OnlineElectionControl.Classes
 
             var tmpResults = Database.ExecuteQuery(pQuery: tmpQuery, pParameters: tmpParams);
 
+            if (tmpResults.Count != 1) throw new Exception($"Did not find a user with UserId: {pId}");
+
             UserId = pId;
             Username = (string) tmpResults[0][nameof(Username)];
             Password = (string) tmpResults[0][nameof(Password)];
