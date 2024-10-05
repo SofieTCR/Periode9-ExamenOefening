@@ -7,10 +7,11 @@
 
 <form id="Login_LoginForm" asp-controller="Login" asp-action="AttemptLogin" method="post">
     <label for="Username">Gebruikersnaam</label>
-    <input id="Username" type="text" name="pUsername" required/>
+    <input id="Username" type="text" name="pUsername" @(TempData["pUsername"] != null ? $"value={TempData["pUsername"]}" : "") required />
     <br>
     <label for="Password">Wachtwoord</label>
     <input id="Password" type="password" name="pPassword" required/>
     <br>
-    <input type="submit" />
+    <input type="submit" value="Inloggen"/>
 </form>
+<a asp-controller="Login" asp-action="Register">Register</a>
