@@ -84,6 +84,11 @@ namespace OnlineElectionControl.Classes
                             - (ReferenceDate < Birthdate.AddYears(ReferenceDate.Year - Birthdate.Year) ? 1 : 0);
 
         /// <summary>
+        /// If the user is eligible to vote on the ReferenceDate.
+        /// </summary>
+        public bool UserIsEligible => UserAge >= 18;
+
+        /// <summary>
         /// Constructor to fill a new object.
         /// </summary>
         public User(string pUsername
@@ -285,9 +290,11 @@ namespace OnlineElectionControl.Classes
             return true;
         }
 
-        public static List<User> GetList(DateTime? pReferenceDate = null)
+        public static List<User> GetList(DateTime? pReferenceDate = null
+                                       , bool pIsEligible = false)
         {
             List<User> tmpUsers = new List<User>();
+            var tmpReferenceDate = pReferenceDate ?? DateTime.Today;
             var tmpQuery = @"SELECT Id AS UserId,
                                     Username,
                                     Password,
@@ -296,9 +303,18 @@ namespace OnlineElectionControl.Classes
                                     Email,
                                     Birthdate,
                                     City
-                               FROM `user`;";
+                               FROM `user`
+                              WHERE ((@pIsEligible = 0) OR TIMESTAMPDIFF(YEAR, Birthdate, @ReferenceDate) >= 18)";
+            var tmpParameters = new Dictionary<string, object> 
+            { 
+                { "@pIsEligible", pIsEligible }
+              , { "@ReferenceDate", tmpReferenceDate }
+            };
 
-            var tmpList = Database.ExecuteQuery(pQuery: tmpQuery);
+            // Future additional checks go here
+
+            tmpQuery += ";";
+            var tmpList = Database.ExecuteQuery(pQuery: tmpQuery, pParameters: tmpParameters);
 
             foreach (var user in tmpList)
             {
@@ -311,7 +327,7 @@ namespace OnlineElectionControl.Classes
                                      , pBirthdate: (DateTime) user[nameof(Birthdate)]
                                      , pCity: (string) user[nameof(City)]);
 
-                if (pReferenceDate != null) tmpUser.ReferenceDate = (DateTime) pReferenceDate;
+                tmpUser.ReferenceDate = tmpReferenceDate;
 
                 tmpUsers.Add(tmpUser);
             }
