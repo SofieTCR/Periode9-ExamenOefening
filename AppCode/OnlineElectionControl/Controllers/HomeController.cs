@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Mvc;
+using OnlineElectionControl.Classes;
 using OnlineElectionControl.Models;
 using System.Diagnostics;
 
 namespace OnlineElectionControl.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : OECBaseController
     {
         public IActionResult Index()
         {
@@ -17,6 +18,15 @@ namespace OnlineElectionControl.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        
+        [HttpPost]
+        public IActionResult Logout()
+        {
+            HttpContext.Session.Remove("LoggedInUserId");
+            Current.LoggedInUserId = null;
+
+            TempData["Vml"] = new List<string> { "You have been logged out succesfully!" };
+
+            return RedirectToAction("Index");
+        }
     }
 }
