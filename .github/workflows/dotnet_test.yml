@@ -2,8 +2,12 @@ name: dotnet_Testing
 
 on:
     push:
-        branches: [ "main" ]
+      branches: [ "main" ]
+      paths:
+        - 'AppCode/**'
     pull_request:
+      paths:
+        - 'AppCode/**'
 
 jobs:
     build:
