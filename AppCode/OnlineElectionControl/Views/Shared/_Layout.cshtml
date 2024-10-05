@@ -14,8 +14,7 @@
         @if (OnlineElectionControl.Classes.Current.UserIsLoggedIn)
         {
             @OnlineElectionControl.Classes.Current.LoggedInUserId
-            <form id="Nav_LogoutForm" asp-controller="Home" asp-action="Logout" method="post" style="display:none;">
-            </form>
+            <form id="Nav_LogoutForm" asp-controller="Home" asp-action="Logout" method="post" style="display:none;"></form>
             <a href="javascript:void(0);" onclick="document.getElementById('Nav_LogoutForm').submit();">Logout</a>
         }
 
