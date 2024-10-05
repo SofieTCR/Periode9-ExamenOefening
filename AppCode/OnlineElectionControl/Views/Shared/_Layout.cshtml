@@ -9,6 +9,20 @@
 <body>
     <header>
         header
+        Logged in?
+        @OnlineElectionControl.Classes.Current.UserIsLoggedIn
+        @if (OnlineElectionControl.Classes.Current.UserIsLoggedIn)
+        {
+            @OnlineElectionControl.Classes.Current.LoggedInUserId
+            <form id="Nav_LogoutForm" asp-controller="Home" asp-action="Logout" method="post" style="display:none;">
+            </form>
+            <a href="javascript:void(0);" onclick="document.getElementById('Nav_LogoutForm').submit();">Logout</a>
+        }
+
+        @if (TempData["Vml"] != null) foreach (var message in (string[]) TempData["Vml"])
+        {
+            <p>@message</p>
+        }
     </header>
 
     <main>

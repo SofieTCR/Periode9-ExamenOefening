@@ -1,0 +1,16 @@
+﻿@model LoginModel;
+@{
+    ViewData["Title"] = "Index";
+}
+
+<h1>Index</h1>
+
+<form id="Login_LoginForm" asp-controller="Login" asp-action="AttemptLogin" method="post">
+    <label for="Username">Gebruikersnaam</label>
+    <input id="Username" type="text" name="pUsername" required/>
+    <br>
+    <label for="Password">Wachtwoord</label>
+    <input id="Password" type="password" name="pPassword" required/>
+    <br>
+    <input type="submit" />
+</form>
