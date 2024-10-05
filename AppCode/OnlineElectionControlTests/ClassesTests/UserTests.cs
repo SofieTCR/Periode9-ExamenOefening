@@ -84,6 +84,33 @@ namespace OnlineElectionControl.Tests.ClassesTests
         }
 
         [Theory]
+        [InlineData(new[] { 1945, 05, 05 }, new[] { 1969, 07, 20 }, true)]
+        [InlineData(new[] { 1978, 04, 05 }, new[] { 1996, 04, 05 }, true)]
+        [InlineData(new[] { 1990, 03, 12 }, new[] { 2024, 10, 04 }, true)]
+        [InlineData(new[] { 1985, 07, 22 }, new[] { 2001, 01, 01 }, false)]
+        [InlineData(new[] { 2005, 11, 08 }, new[] { 2021, 07, 15 }, false)]
+        public void User_IsEligible_IsCorrect(int[] pBirthdate, int[] pReferenceDate, bool pResult)
+        {
+            // Arrange
+            var tmpBirthdate = new DateTime(year: pBirthdate[0], month: pBirthdate[1], day: pBirthdate[2]);
+            var tmpReferenceDate = new DateTime(year: pReferenceDate[0], month: pReferenceDate[1], day: pReferenceDate[2]);
+            var tmpUser = new User(pUsername: "username"
+                                 , pFirstName: "firstname"
+                                 , pLastName: "lastname"
+                                 , pEmail: "email"
+                                 , pBirthdate: tmpBirthdate
+                                 , pCity: "city"
+                                  );
+
+            // Act
+            tmpUser.ReferenceDate = tmpReferenceDate;
+            var result = tmpUser.UserIsEligible;
+
+            // Assert
+            result.Should().Be(pResult);
+        }
+
+        [Theory]
         [InlineData("Password1")]
         [InlineData("SomeWord26")]
         [InlineData("FakeWords00!")]
