@@ -18,9 +18,9 @@ namespace OnlineElectionControl.Controllers
             return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
         }
 
-        [HttpPost]
         public IActionResult Logout()
         {
+            if (!Current.UserIsLoggedIn) return RedirectToAction("Index", "Home");
             HttpContext.Session.Remove("LoggedInUserId");
             Current.LoggedInUserId = null;
 

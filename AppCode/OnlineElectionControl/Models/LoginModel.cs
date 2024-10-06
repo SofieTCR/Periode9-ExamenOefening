@@ -4,8 +4,6 @@ namespace OnlineElectionControl.Models
 {
     public class LoginModel
     {
-        public LoginModel()
-        {
-        }
+
     }
 }

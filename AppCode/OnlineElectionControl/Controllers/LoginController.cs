@@ -16,7 +16,7 @@ namespace OnlineElectionControl.Controllers
         public IActionResult Register()
         {
             if (Current.UserIsLoggedIn) return RedirectToAction("Index", "Home");
-            return View("Register");
+            return View();
         }
 
         [HttpPost]
