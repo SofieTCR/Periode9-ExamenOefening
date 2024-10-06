@@ -4,14 +4,25 @@
     ViewData["Title"] = "Home Page";
 }
 
-<h1">Welcome</h1>
-<p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-<a asp-controller="Login" asp-action="Index">Inloggen</a>
+<h1 id="home-h1">Welkom</h1>
 
-<!-- small example on how to incorporate c# in to the razor page.
-You normally wouldn't really call any methods from the model here -->
-@foreach(string section in Model.SplitOnT("Some text with many t's to split on"))
-{
-    <p>The received bit of string was: @(section)</p>
-    <br>
-}
+<div id="home-main">
+
+    <section id="past-elections">
+        <h2 class="home-h2"> Verlopen verkiezingen</h2>
+
+        <div class="elections-list-home">
+        @* insert elections US07 *@
+        </div>
+    </section>
+
+
+    <section id="future-elections">
+        <h2 class="home-h2">Toekomstige verkiezingen</h2>
+
+        <div class="elections-list-home">
+        @* insert elections US07 *@
+        </div>
+    </section>
+
+</div>

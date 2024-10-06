@@ -3,15 +3,29 @@
     ViewData["Title"] = "Index";
 }
 
-<h1>Index</h1>
+<div id="login-main">
 
-<form id="Login_LoginForm" asp-controller="Login" asp-action="AttemptLogin" method="post">
-    <label for="Username">Gebruikersnaam</label>
-    <input id="Username" type="text" name="pUsername" @(TempData["pUsername"] != null ? $"value={TempData["pUsername"]}" : "") required />
-    <br>
-    <label for="Password">Wachtwoord</label>
-    <input id="Password" type="password" name="pPassword" required/>
-    <br>
-    <input type="submit" value="Inloggen"/>
-</form>
-<a asp-controller="Login" asp-action="Register">Register</a>
+<div id="login-form-box">
+
+    <h1 id="login-h1">Log In</h1>
+
+    <div class="register-link">
+         Geen account?
+            <a asp-controller="Login" asp-action="Register" class="register-link">Register</a>
+    </div>
+
+    <form id="Login_LoginForm" asp-controller="Login" asp-action="AttemptLogin" method="post">
+     <label for="Username"></label>
+     <input id="Username" type="text" name="pUsername" placeholder="Gebruikersnaam" @(TempData["pUsername"] != null ? $"value={TempData["pUsername"]}" : "") required />
+            <br><br>
+     <label for="Password"></label>
+     <input id="Password" type="password" name="pPassword" placeholder="Wachtwoord" required />
+     <br><br>
+     <a href="">Wachtwoord vergeten?</a>
+      <br>
+      <input type="submit" value="Inloggen" id="login-btn"/>
+    </form>
+
+</div>
+
+</div>
