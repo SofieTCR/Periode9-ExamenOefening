@@ -3,30 +3,42 @@
     ViewData["Title"] = "Registration";
 }
 
-<h1>Registration</h1>
+<div id="register-main">
+    <div id="register-form-box">
 
-<form id="Login_RegistrationForm" asp-controller="Login" asp-action="AttemptRegister" method="post">
-    <label for="Username">Gebruikersnaam</label>
-    <input id="Username" type="text" name="pUsername" @(TempData["pUsername"] != null ? $"value={TempData["pUsername"]}" : "") required />
-    <br>
-    <label for="Password">Wachtwoord</label>
-    <input id="Password" type="password" name="pPassword" required />
-    <br>
-    <label for="Firstname">Voornaam</label>
-    <input id="Firstname" type="text" name="pFirstName" @(TempData["pFirstName"] != null ? $"value={TempData["pFirstName"]}" : "") required />
-    <br>
-    <label for="Lastname">Achternaam</label>
-    <input id="Lastname" type="text" name="pLastName" @(TempData["pLastName"] != null ? $"value={TempData["pLastName"]}" : "") required />
-    <br>
-    <label for="City">Plaats</label>
-    <input id="City" type="text" name="pCity" @(TempData["pCity"] != null ? $"value={TempData["pCity"]}" : "") required />
-    <br>
-    <label for="Birthdate">Geboortedatum</label>
-    <input id="Birthdate" type="date" name="pBirthdate" @(TempData["pBirthdate"] != null ? $"value={((DateTime) TempData["pBirthdate"]).ToString(format: "yyyy-MM-dd")}" : "") required />
-    <br>
-    <label for="Email">E-mailadres</label>
-    <input id="Email" type="email" name="pEmail" @(TempData["pEmail"] != null ? $"value={TempData["pEmail"]}" : "") required />
-    <br>
-    <input type="submit" value="Registreren" />
-</form>
-<a asp-controller="Login" asp-action="Index">Inloggen</a>
+        <h1>Registreren</h1>
+
+        <div id="login-link">
+            Heeft u een account?
+            <a asp-controller="Login" asp-action="Index">Inloggen</a>
+        </div>
+
+
+         <form id="Login_RegistrationForm" asp-controller="Login" asp-action="AttemptRegister" method="post">
+         <label for="Username"></label>
+            <input id="Username" type="text" name="pUsername" placeholder="Gebruikersnaam" @(TempData["pUsername"] != null ? $"value={TempData["pUsername"]}" : "") required />
+         <br>
+         <label for="Password"></label>
+            <input id="Password" type="password" name="pPassword" placeholder="Wachtwoord" required />
+         <br>
+         <label for="Firstname"></label>
+            <input id="Firstname" type="text" name="pFirstName" placeholder="Voornaam" @(TempData["pFirstName"] != null ? $"value={TempData["pFirstName"]}" : "") required />
+         <br>
+         <label for="Lastname"></label>
+            <input id="Lastname" type="text" name="pLastName" placeholder="Achternaam" @(TempData["pLastName"] != null ? $"value={TempData["pLastName"]}" : "") required />
+         <br>
+         <label for="City"></label>
+            <input id="City" type="text" name="pCity" placeholder="Plaats" @(TempData["pCity"] != null ? $"value={TempData["pCity"]}" : "") required />
+         <br>
+         <label for="Birthdate"></label>
+            <input id="Birthdate" type="date" name="pBirthdate" @(TempData["pBirthdate"] != null ? $"value={((DateTime)TempData["pBirthdate"]).ToString(format: "yyyy-MM-dd")}" : "") required />
+         <br>
+         <label for="Email"></label>
+            <input id="Email" type="email" name="pEmail" placeholder="E-Mailadres" @(TempData["pEmail"] != null ? $"value={TempData["pEmail"]}" : "") required />
+         <br>
+            <input type="submit" value="Registreren" id="register-btn" />
+        </form>
+       
+
+    </div>
+</div>

@@ -8,24 +8,6 @@
 </head>
 <body>
    
-    <header>
-        @*  header
-         Logged in?
-         @OnlineElectionControl.Classes.Current.UserIsLoggedIn
-         @if (OnlineElectionControl.Classes.Current.UserIsLoggedIn)
-         {
-             @OnlineElectionControl.Classes.Current.LoggedInUserId
-             <form id="Nav_LogoutForm" asp-controller="Home" asp-action="Logout" method="post" style="display:none;">
-             </form>
-             <a href="javascript:void(0);" onclick="document.getElementById('Nav_LogoutForm').submit();">Logout</a>
-         }
-         *@
-         @if (TempData["Vml"] != null) foreach (var message in (string[]) TempData["Vml"])
-         {
-             <p>@message</p>
-         } 
- 
-    </header>
    
     <div id="nav-main-div">
 
@@ -35,8 +17,15 @@
              <div id="nav-links">
 
                  <div id="login-arrow-group">
-                    <a href="#" id="login-icon"><img src="~/svg-icons/user-icon.svg" alt="login icon" id="login-svg" /></a>
-                    <a href="#" id="arrow-icon"><img src="~/svg-icons/arrow-right-icon.svg" alt="arrow icon" id="arrow-svg" /></a>
+
+                    <div class="icon-width-fix">
+                        <a asp-controller="Login" asp-action="Index" id="login-icon"><img src="~/svg-icons/user-icon.svg" alt="login icon" id="login-svg" /></a>
+                    </div>
+
+                    <div class="icon-width-fix">
+                        <a href="#" id="arrow-icon"><img src="~/svg-icons/arrow-right-icon.svg" alt="arrow icon" id="arrow-svg" /></a>
+                    </div>
+
                  </div>
 
                 <a href="#"><img src="~/svg-icons/voting-icon.svg" alt="vote icon" id="voting-svg" /></a>
@@ -44,23 +33,52 @@
                 <a href="#"><img src="~/svg-icons/graph-icon.svg" alt="results icon" id="results-svg" /></a>
                 <a href="#"><img src="~/svg-icons/party-icon.svg" alt="parties icon" id="parties-svg" /></a>
 
-                <a href="#" id="logout-icon"><img src="~/svg-icons/quit-icon.svg" alt="logout icon" id="logout-svg" /></a>
+                    <div class="icon-width-fix">
+                        <a asp-controller="Home" asp-action="Logout" id="logout-icon"><img src="~/svg-icons/quit-icon.svg" alt="logout icon" id="logout-svg" /></a>
+                    </div>
                 
             </div>
 
          </nav>
-  
 
         <main>
+
+            <div class="vml-message">
+
+                @if (TempData["Vml"] != null) foreach (var message in (string[])TempData["Vml"])
+                    {
+                        <p>@message</p>
+                    }
+
+            </div>
+
             @RenderBody()
+
+            Logged in?
+            @OnlineElectionControl.Classes.Current.UserIsLoggedIn
+
         </main>
 
     </div>
 
-    <div id="footer-div">
+  
     <footer>
             Copyright 2024  -  <a href="https://www.rijksoverheid.nl/" target="_blank" id="copyright-link">Rijksoverheid</a>
     </footer>
-    </div>
+   
+
 </body>
 </html>
+
+
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        var vmlMessageDiv = document.querySelector('.vml-message');
+
+        if (!vmlMessageDiv.textContent.trim()) {
+
+            vmlMessageDiv.classList.add('hidden');
+        }
+    });
+</script>
