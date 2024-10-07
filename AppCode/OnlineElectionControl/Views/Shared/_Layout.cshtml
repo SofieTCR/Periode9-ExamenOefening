@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@using OnlineElectionControl.Classes;
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -12,29 +13,29 @@
     <div id="nav-main-div">
 
         
-         <nav>
+         <nav id="nav-bar" class="collapsed">
 
              <div id="nav-links">
 
                  <div id="login-arrow-group">
 
                     <div class="icon-width-fix">
-                        <a asp-controller="Login" asp-action="Index" id="login-icon"><img src="~/svg-icons/user-icon.svg" alt="login icon" id="login-svg" /></a>
+                        <a asp-controller="Login" asp-action="Index" id="login-icon"><img src="~/svg-icons/user-icon.svg" alt="login icon" id="login-svg"/><h1 class="nav-bar-expanded-text">@(Current.UserIsLoggedIn ? $"{Current.LoggedInUser!.UserSortName}" : "Inloggen")</h1></a>
                     </div>
 
                     <div class="icon-width-fix">
-                        <a href="#" id="arrow-icon"><img src="~/svg-icons/arrow-right-icon.svg" alt="arrow icon" id="arrow-svg" /></a>
+                        <a onclick="toggleNav()" id="arrow-icon"><img src="~/svg-icons/arrow-right-icon.svg" alt="arrow icon" id="arrow-svg"/><h1 class="nav-bar-expanded-text">Inklappen</h1></a>
                     </div>
 
                  </div>
 
-                <a href="#"><img src="~/svg-icons/voting-icon.svg" alt="vote icon" id="voting-svg" /></a>
-                <a href="#"><img src="~/svg-icons/calendar-icon.svg" alt="elections icon" id="elections-svg" /></a>
-                <a href="#"><img src="~/svg-icons/graph-icon.svg" alt="results icon" id="results-svg" /></a>
-                <a href="#"><img src="~/svg-icons/party-icon.svg" alt="parties icon" id="parties-svg" /></a>
+                <a asp-controller="Home" asp-action="Index"><img src="~/svg-icons/home-icon.svg" alt="home icon" id="home-svg"/><h1 class="nav-bar-expanded-text">Home</h1></a>
+                <a href="#"><img src="~/svg-icons/voting-icon.svg" alt="vote icon" id="voting-svg"/><h1 class="nav-bar-expanded-text">Stemmen</h1></a>
+                <a href="#"><img src="~/svg-icons/calendar-icon.svg" alt="elections icon" id="elections-svg"/><h1 class="nav-bar-expanded-text">Verkiezingen</h1></a>
+                <a href="#"><img src="~/svg-icons/party-icon.svg" alt="parties icon" id="parties-svg"/><h1 class="nav-bar-expanded-text">Partijen</h1></a>
 
                     <div class="icon-width-fix">
-                        <a asp-controller="Home" asp-action="Logout" id="logout-icon"><img src="~/svg-icons/quit-icon.svg" alt="logout icon" id="logout-svg" /></a>
+                        <a asp-controller="Home" asp-action="Logout" id="logout-icon"><img src="~/svg-icons/quit-icon.svg" alt="logout icon" id="logout-svg"/><h1 class="nav-bar-expanded-text">Uitloggen</h1></a>
                     </div>
                 
             </div>
@@ -66,7 +67,12 @@
             Copyright 2024  -  <a href="https://www.rijksoverheid.nl/" target="_blank" id="copyright-link">Rijksoverheid</a>
     </footer>
    
-
+    <script>
+        function toggleNav() {
+            const nav = document.getElementById("nav-bar");
+            nav.classList.toggle("collapsed");
+        }
+    </script>
 </body>
 </html>
 
