@@ -109,7 +109,7 @@
             // Name validation.
             if (Name.Length < 3) Vml.Add("Name is too short!");
             if (Name.Length > 255) Vml.Add("Name is too long!");
-            var tmpQuery = "SELECT Id AS UserId FROM `election` WHERE Name = @Name";
+            var tmpQuery = "SELECT Id AS ElectionId FROM `election` WHERE Name = @Name";
             var tmpParams = new Dictionary<string, object>() { { "@Name", Name } };
             if (ElectionId != null)
             {
@@ -199,7 +199,7 @@
                 { "@ReferenceDate", tmpReferenceDate }
             };
 
-            if (pStatus != null && pStatus.Any())
+            if (pStatus != null && pStatus.Count != 0)
             {
                 var tmpStatusConditions = new List<string>();
 
