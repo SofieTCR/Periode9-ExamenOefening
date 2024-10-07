@@ -4,20 +4,26 @@ html {
 
 body {
     margin: 0;
-    padding: 0
+    padding: 0;
 }
 
 a {
     list-style: none;
 }
 
-
 nav {
     background-color: #3E548C;
     height: 96vh;
-    min-width: 60px;
+    width: 280px;
     display: flex;
+    transition: width 0.3s ease;
+}
 
+#nav-main-div {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    overflow-x: hidden;
 }
 
 #nav-links {
@@ -25,8 +31,8 @@ nav {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
+    width: 100%;
 }
-
 
 .vml-message {
     height: 4vh;
@@ -45,11 +51,6 @@ nav {
     display: none;
 }
 
-
-#idc {
-    font-size: 50px;
-}
-
 main {
     background-color: white;
     width: 96.8vw;
@@ -58,12 +59,39 @@ main {
     flex-direction: column;
     align-items: center;
     overflow-x: hidden;
+    transition: margin-left 0.3s ease;
+    margin-left: 250px;
 }
 
-#nav-main-div {
+nav.collapsed {
+    width: 60px;
+}
+
+nav.collapsed + main {
+    margin-left: 60px;
+}
+
+nav a {
+    text-decoration: none;
+    font-weight: bold;
     display: flex;
     flex-direction: row;
-        align-items: center;
+    flex-wrap: nowrap;
+    align-items: center;
+    width: 100%;
+    padding-left: 15px;
+}
+.nav-bar-expanded-text {
+    color: white;
+    margin: 0;
+    margin-left: 15px;
+    transition: visibility 0.3s ease;
+    width: 100%;
+    white-space: nowrap;
+}
+
+nav.collapsed .nav-bar-expanded-text {
+	visibility: hidden;
 }
 
 #login-arrow-group {
@@ -71,24 +99,40 @@ main {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    text-align: center;
+    width: 100%;
 }
 
 #login-icon {
-    height: 6vh;
+    height: 45px;
     color: black;
+    padding-left: 5px;
+    padding: 4px 0px 4px 10px;
 }
+
 #arrow-icon {
     height: 6vh;
+    cursor: pointer;
+    padding: 4px 0px 4px 5px;
 }
+
+#arrow-icon img {
+    transform: rotate(180deg);
+    transition: transform 0.3s ease;
+}
+
+nav.collapsed #arrow-icon img {
+    transform: rotate(0deg);
+}
+
 #logout-icon {
-    height: 6vh;
-    text-align: center;
+    height: 45px;
+    border-top: solid 4px #1F315F;
+    padding: 4px 0px;
 }
 
 .icon-width-fix {
     border-bottom: solid 4px #1F315F;
-    width: 60px;
+    width: 100%
 }
 
 footer {
@@ -99,38 +143,43 @@ footer {
     justify-content: center;
     align-items: center;
 }
+
 #copyright-link:visited {
     color: white;
 }
 
-
 #login-svg {
     width: 40px;
-    margin-top: 7px;
 }
+
 #arrow-svg {
-    width: 45px;
-    margin-top: 6px;
-}
-#logout-svg {
-    width: 60px;
+    width: 50px;
     height: 50px;
-    margin-top: 3px;
-    border-top: solid 4px #1F315F;
+    margin-right: -5px;
+}
+
+#logout-svg {
+    width: 45px;
+    height: 45px;
+    padding-left: 7.5px;
 }
 
 #voting-svg {
-    width: 48px;
-}
-#elections-svg {
-    width: 55px;
-}
-#results-svg {
     width: 45px;
 }
-#parties-svg {
-    width: 50px;
+
+#elections-svg {
+    width: 45px;
 }
+
+#home-svg {
+    width: 45px;
+}
+
+#parties-svg {
+    width: 45px;
+}
+
 
 /*Home CSS*/
 
