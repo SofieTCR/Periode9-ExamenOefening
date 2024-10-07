@@ -110,6 +110,25 @@ namespace OnlineElectionControl.Tests.ClassesTests
             result.Should().Be(pResult);
         }
 
+        [Fact]
+        public void User_UserIsGovernment_ReturnsFalse()
+        {
+            // Arrange
+            var tmpUser = new User(pUsername: "username"
+                                 , pFirstName: "firstname"
+                                 , pLastName: "lastname"
+                                 , pEmail: "email"
+                                 , pBirthdate: DateTime.Now
+                                 , pCity: "city"
+                                  );
+
+            // Act
+            var result = tmpUser.UserIsGovernment;
+
+            // Assert
+            result.Should().Be(false);
+        }
+
         [Theory]
         [InlineData("Password1")]
         [InlineData("SomeWord26")]

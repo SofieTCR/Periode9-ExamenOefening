@@ -89,6 +89,13 @@ namespace OnlineElectionControl.Classes
         public bool UserIsEligible => UserAge >= 18;
 
         /// <summary>
+        /// If the user is a government worker.
+        /// </summary>
+        public bool UserIsGovernment => UserId != null ? Constants.GovernmentUserIds.Contains((int) UserId) : false;
+
+        // Constructors
+
+        /// <summary>
         /// Constructor to fill a new object.
         /// </summary>
         public User(string pUsername
@@ -227,7 +234,7 @@ namespace OnlineElectionControl.Classes
             string tmpQuery = string.Empty;
             var tmpParameters = new Dictionary<string, object>
             {
-                { "@UserId", UserId }
+                { "@UserId", UserId! }
               , { "@Username", Username }
               , { "@Password", Password }
               , { "@Firstname", FirstName }
