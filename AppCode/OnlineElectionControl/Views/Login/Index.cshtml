@@ -16,10 +16,10 @@
 
     <form id="Login_LoginForm" asp-controller="Login" asp-action="AttemptLogin" method="post">
      <label for="Username"></label>
-     <input id="Username" type="text" name="pUsername" placeholder="Gebruikersnaam" @(TempData["pUsername"] != null ? $"value={TempData["pUsername"]}" : "") required />
+     <input id="Username" class="Login_LoginInput" type="text" name="pUsername" placeholder="Gebruikersnaam" @(TempData["pUsername"] != null ? $"value={TempData["pUsername"]}" : "") required />
             <br><br>
      <label for="Password"></label>
-     <input id="Password" type="password" name="pPassword" placeholder="Wachtwoord" required />
+     <input id="Password" class="Login_LoginInput" type="password" name="pPassword" placeholder="Wachtwoord" required />
      <br><br>
      <a href="">Wachtwoord vergeten?</a>
       <br>
