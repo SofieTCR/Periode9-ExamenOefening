@@ -2,7 +2,7 @@ namespace OnlineElectionControl.Classes
 {
     public class Constants
     {
-        public static readonly int[] GovernmentUserIds = { 1 }; 
+        public static readonly int[] GovernmentUserIds = { 1, 3 }; 
     }
 
     /// <summary>
