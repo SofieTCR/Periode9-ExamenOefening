@@ -14,7 +14,10 @@
         <div class="elections-list-home">
             @foreach ( var tmpElection in Model.GetPastElections )
             {
-                <div>@tmpElection.Name - @tmpElection.Date.ToString("dd-MM-yyyy")</div> 
+                <div class="election-list-items">@tmpElection.Name - @tmpElection.Date.ToString("dd-MM-yyyy")
+                    <a href="#"><img src="~/svg-icons/graph-icon.svg" alt="results icon" id="results-svg" /></a>
+                </div> 
+                <br /><br />
             }
         </div>
     </section>
@@ -26,7 +29,9 @@
         <div class="elections-list-home">
             @foreach (var tmpElection in Model.GetFutureElections)
             {
-                <div>@tmpElection.Name - @tmpElection.Date.ToString("dd-MM-yyyy")</div>
+                <div class="election-list-items">@tmpElection.Name - @tmpElection.Date.ToString("dd-MM-yyyy")
+                    <a href="#"><img src="~/svg-icons/voting-icon.svg" alt="vote icon" id="vote-svg" /></a>
+                </div>
             }
         </div>
     </section>
