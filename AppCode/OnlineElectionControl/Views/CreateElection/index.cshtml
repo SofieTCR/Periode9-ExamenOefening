@@ -13,7 +13,7 @@
             <input id="ElectionName" class="Login_LoginInput" type="text" name="pElectionName" placeholder="Naam" @(TempData["pElectionName"] != null ? $"value={TempData["pElectionName"]}" : "") required />
             <br><br>
             <label for="ElectionDescription"></label>
-            <input id="ElectionDescription" class="Login_LoginInput" type="text" name="pElectionDescription" placeholder="Omschrijving" required />
+            <input id="ElectionDescription" class="Login_LoginInput" type="text" name="pElectionDescription" placeholder="Omschrijving"/>
             <br><br>
             <label for="ElectionDate"></label>
             <input id="ElectionDate" class="Register_RegisterInput" type="date" name="pElectionDate" @(TempData["pElectionDate"] != null ? $"value={((DateTime)TempData["pElectionDate"]).ToString(format: "yyyy-MM-dd")}" : "") required />

@@ -183,14 +183,15 @@
 
         public static List<Election> GetList(List<ElectionStatus> pStatus = null
                                            , int? pMaxNumber = null
-                                           , SortOrder pSortOrder = SortOrder.NONE)
+                                           , SortOrder pSortOrder = SortOrder.NONE
+                                           , bool pGetDescription = false )
         {
             List<Election> tmpElections = new List<Election>();
             var tmpReferenceDate = DateTime.Today;
             var tmpQuery = @"SELECT Id AS ElectionId,
-                                    Name,
-                                    Description,
-                                    Date
+                                    Name,";
+            if (pGetDescription) tmpQuery += "Description,";
+                                 tmpQuery += @"Date
                                FROM `election`
                               WHERE 1 = 1 ";
 
@@ -238,7 +239,7 @@
                 tmpElections.Add(new Election(
                     pId: (int) tmpElection[nameof(ElectionId)],
                     pName: (string) tmpElection[nameof(Name)],
-                    pDescription: tmpElection[nameof(Description)] as string,
+                    pDescription: pGetDescription ? tmpElection[nameof(Description)] as string : null,
                     pDate: (DateTime) tmpElection[nameof(Date)]
                 ));
             }

@@ -12,7 +12,10 @@
         <h2 class="home-h2"> Verlopen verkiezingen</h2>
 
         <div class="elections-list-home">
-        @* insert elections US07 *@
+            @foreach ( var tmpElection in Model.GetPastElections )
+            {
+                <div>@tmpElection.Name - @tmpElection.Date.ToString("dd-MM-yyyy")</div> 
+            }
         </div>
     </section>
 
@@ -21,7 +24,10 @@
         <h2 class="home-h2">Toekomstige verkiezingen</h2>
 
         <div class="elections-list-home">
-        @* insert elections US07 *@
+            @foreach (var tmpElection in Model.GetFutureElections)
+            {
+                <div>@tmpElection.Name - @tmpElection.Date.ToString("dd-MM-yyyy")</div>
+            }
         </div>
     </section>
 
