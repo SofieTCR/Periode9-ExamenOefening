@@ -32,6 +32,17 @@
         <h2 class="home-h2">Toekomstige verkiezingen</h2>
 
         <div class="elections-list-home">
+            @{
+                if(Current.UserIsLoggedIn && Current.LoggedInUser!.UserIsGovernment)
+                {
+                    <style>.elections-list-home { min-height: 500px; }</style>
+                    <div id="new-election-box">
+                    <a asp-controller="CreateElection" asp-action="Index" id="new-election-btn">
+                        Nieuwe verkiezing aanmaken
+                    <img src="~/svg-icons/plus-icon.svg" alt="Plus icon to create new election"/></a>
+                    </div>
+                }
+            }
             @foreach (var tmpElection in Model.GetFutureElections)
             {
                 <div class="election-list-items">
