@@ -211,36 +211,32 @@ footer {
     border: solid #3E548C 6px;
     height: 60vh;
     width: 27vw;
+    min-width: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-evenly;
 }
 
-#future-elections #past-elections {
-   
-}
-
 .election-list-items {
     background-color: #DFE3EE;
     display: flex;
     align-items: center;
-    justify-content: center;
+    justify-content: space-between;
     height: 7vh;
     width: 25vw;
-    padding-left: 10px;
-}
-
-#results-svg {
-    width: 30px;
-    text-align: center;
-    margin-left: 40px;
-}
-
-.vote-svg {
-    width: 32px;
-    text-align: center;
-    margin-left: 40px;
+    min-width: 380px;
+    min-height: 80px;
+    p {
+        padding: 0px 10px;
+    }
+    a {
+        padding: 0px 10px;
+        img {
+            width: 30px;
+            height: 30px;
+        }
+    }
 }
 
 /*Login CSS*/

@@ -56,7 +56,7 @@ namespace OnlineElectionControl.Tests.ClassesTests
         
         [Theory]
         [InlineData("A short name", "A short name")]
-        [InlineData("A Long name that is short enough to fit but long enough to get shortened", "A Long name that is short enough to fit but long enough")]
+        [InlineData("A Long name that is short enough to fit but long enough to get shortened", "A Long name that is short enough to fit ")]
         public void Election_ShortName_IsCorrect(string pName, string pShortName)
         {
             // Arrange

@@ -14,8 +14,13 @@
         <div class="elections-list-home">
             @foreach ( var tmpElection in Model.GetPastElections )
             {
-                <div class="election-list-items">@tmpElection.Name - @tmpElection.Date.ToString("dd-MM-yyyy")
-                    <a href="#"><img src="~/svg-icons/graph-icon.svg" alt="results icon" id="results-svg" /></a>
+                <div class="election-list-items">
+                    <p>
+                        @tmpElection.ShortName
+                        <br />
+                        @tmpElection.Date.ToString("dd-MM-yyyy")
+                    </p>
+                    <a href="#"><img src="~/svg-icons/graph-icon.svg" alt="results icon"/></a>
                 </div> 
                 
             }
@@ -29,14 +34,19 @@
         <div class="elections-list-home">
             @foreach (var tmpElection in Model.GetFutureElections)
             {
-                <div class="election-list-items">@tmpElection.Name - @tmpElection.Date.ToString("dd-MM-yyyy")
+                <div class="election-list-items">
+                    <p>
+                        @tmpElection.ShortName
+                        <br/>
+                        @tmpElection.Date.ToString("dd-MM-yyyy")
+                    </p>
                     @{
                         if(tmpElection.Status == ElectionStatus.InProgress)
                         {
-                            <a href="#"><img src="~/svg-icons/voting-icon.svg" alt="vote icon" class="vote-svg" /></a>
+                            <a href="#"><img src="~/svg-icons/voting-icon.svg" alt="vote icon"/></a>
                         } else
                         {
-                            <a href="#"><img src="~/svg-icons/grey-vote-icon.svg" alt="vote icon" class="vote-svg" /></a>
+                            <a href="#"><img src="~/svg-icons/grey-vote-icon.svg" alt="disabled vote icon"/></a>
                         }
                     }
                     
