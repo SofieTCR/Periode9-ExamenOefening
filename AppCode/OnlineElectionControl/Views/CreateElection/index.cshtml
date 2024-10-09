@@ -8,15 +8,15 @@
 
         <h1 id="create_election-h1">Verkiezing aanmaken</h1>
 
-        <form id="Login_LoginForm" asp-controller="CreateElection" asp-action="AttemptCreateElection" method="post">
+        <form id="Create-Election-Form" asp-controller="CreateElection" asp-action="AttemptCreateElection" method="post">
             <label for="ElectionName"></label>
-            <input id="ElectionName" class="Login_LoginInput" type="text" name="pElectionName" placeholder="Naam" @(TempData["pElectionName"] != null ? $"value={TempData["pElectionName"]}" : "") required maxlength="255"/>
+            <input id="ElectionName" class="Create-Election-Input" type="text" name="pElectionName" placeholder="Naam" @(TempData["pElectionName"] != null ? $"value={TempData["pElectionName"]}" : "") required maxlength="255" />
             <br><br>
             <label for="ElectionDescription"></label>
-            <input id="ElectionDescription" class="Login_LoginInput" type="text" name="pElectionDescription" placeholder="Omschrijving" maxlength="65e3" />
+            <input id="ElectionDescription" class="Create-Election-Input" type="text" name="pElectionDescription" placeholder="Omschrijving" maxlength="65e3" />
             <br><br>
             <label for="ElectionDate"></label>
-            <input id="ElectionDate" class="Register_RegisterInput" type="date" name="pElectionDate" @(TempData["pElectionDate"] != null ? $"value={((DateTime)TempData["pElectionDate"]).ToString(format: "yyyy-MM-dd")}" : "") required />
+            <input id="ElectionDate" class="Create-Election-Input" type="date" name="pElectionDate" @(TempData["pElectionDate"] != null ? $"value={((DateTime)TempData["pElectionDate"]).ToString(format: "yyyy-MM-dd")}" : "") required />
             <br><br>
             <input type="submit" value="Aanmaken" id="Election-btn" />
         </form>
