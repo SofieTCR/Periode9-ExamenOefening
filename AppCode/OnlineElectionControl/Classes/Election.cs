@@ -49,6 +49,11 @@
             }
         }
 
+        /// <summary>
+        /// The shortened name of the election.
+        /// </summary>
+        public string ShortName => (Name.Length <= 55 ? Name : Name.Substring(0, 55));
+
         // Constructors
 
         /// <summary>
@@ -134,7 +139,7 @@
             string tmpQuery = string.Empty;
             var tmpParameters = new Dictionary<string, object>
             {
-                { "@ElectionId", ElectionId! }
+                { "@ElectionId", ElectionId }
               , { "@Name", Name }
               , { "@Description", Description }
               , { "@Date", Date }
@@ -184,13 +189,13 @@
         public static List<Election> GetList(List<ElectionStatus> pStatus = null
                                            , int? pMaxNumber = null
                                            , SortOrder pSortOrder = SortOrder.NONE
-                                           , bool pGetDescription = false )
+                                           , bool pIncludingDescription = false )
         {
             List<Election> tmpElections = new List<Election>();
             var tmpReferenceDate = DateTime.Today;
             var tmpQuery = @"SELECT Id AS ElectionId,
                                     Name,";
-            if (pGetDescription) tmpQuery += "Description,";
+            if (pIncludingDescription) tmpQuery += "Description,";
                                  tmpQuery += @"Date
                                FROM `election`
                               WHERE 1 = 1 ";
@@ -232,6 +237,8 @@
                 tmpParameters.Add("@MaxNumber", pMaxNumber.Value);
             }
 
+            tmpQuery += ";";
+
             var tmpResultList = Database.ExecuteQuery(pQuery: tmpQuery, pParameters: tmpParameters);
 
             foreach (var tmpElection in tmpResultList)
@@ -239,7 +246,7 @@
                 tmpElections.Add(new Election(
                     pId: (int) tmpElection[nameof(ElectionId)],
                     pName: (string) tmpElection[nameof(Name)],
-                    pDescription: pGetDescription ? tmpElection[nameof(Description)] as string : null,
+                    pDescription: pIncludingDescription ? tmpElection[nameof(Description)] as string : null,
                     pDate: (DateTime) tmpElection[nameof(Date)]
                 ));
             }

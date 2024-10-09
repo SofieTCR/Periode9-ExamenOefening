@@ -15,13 +15,15 @@ namespace OnlineElectionControl.Models
         }
 
         public List<Election> GetPastElections => Election.GetList(
-          pStatus: new List<ElectionStatus> { ElectionStatus.Completed}
-        , pSortOrder: SortOrder.DESC
-        , pMaxNumber: 5);
+            pStatus: new List<ElectionStatus> { ElectionStatus.Completed}
+          , pSortOrder: SortOrder.DESC
+          , pMaxNumber: 5
+        );
 
         public List<Election> GetFutureElections => Election.GetList(
-          pStatus: new List<ElectionStatus> { ElectionStatus.Scheduled }
-        , pSortOrder: SortOrder.DESC
-        , pMaxNumber: 5);
+            pStatus: new List<ElectionStatus> { ElectionStatus.Scheduled }
+          , pSortOrder: SortOrder.DESC
+          , pMaxNumber: 5
+        );
     }
 }
