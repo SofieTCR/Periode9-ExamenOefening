@@ -11,7 +11,9 @@ P Id
 Party:
 P Id
 - Name
-- Abbreviation
+- Description
+- Positions
+- LogoLink
 F Leader_UserId
 
 PartyMember:
