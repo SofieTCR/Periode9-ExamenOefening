@@ -52,7 +52,7 @@
         /// <summary>
         /// The shortened name of the election.
         /// </summary>
-        public string ShortName => (Name.Length <= 55 ? Name : Name.Substring(0, 55));
+        public string ShortName => (Name.Length <= 40 ? Name : Name.Substring(0, 40));
 
         // Constructors
 
