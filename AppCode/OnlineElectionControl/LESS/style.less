@@ -210,12 +210,13 @@ footer {
     background-color: #A4B1D2;
     border: solid #3E548C 6px;
     height: 60vh;
+    min-height: 450px;
     width: 27vw;
     min-width: 400px;
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: space-evenly;
+    justify-content: start;
 }
 
 .election-list-items {
@@ -227,6 +228,7 @@ footer {
     width: 25vw;
     min-width: 380px;
     min-height: 80px;
+    margin: 5px 0px;
     p {
         padding: 0px 10px;
     }
@@ -236,6 +238,25 @@ footer {
             width: 30px;
             height: 30px;
         }
+    }
+}
+#new-election-box {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 5px;
+}
+#new-election-btn {
+    display: flex;
+    text-decoration: none;
+    color: black;
+    align-items: center;
+    padding-right: 10px;
+
+    img {
+        width: 30px;
+        height: 30px;
+        margin-left: 10px;
     }
 }
 
