@@ -21,8 +21,8 @@ namespace OnlineElectionControl.Models
         );
 
         public List<Election> GetFutureElections => Election.GetList(
-            pStatus: new List<ElectionStatus> { ElectionStatus.Scheduled }
-          , pSortOrder: SortOrder.DESC
+            pStatus: new List<ElectionStatus> { ElectionStatus.Scheduled, ElectionStatus.InProgress }
+          , pSortOrder: SortOrder.ASC
           , pMaxNumber: 5
         );
     }
