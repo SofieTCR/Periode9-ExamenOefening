@@ -36,7 +36,7 @@ namespace OnlineElectionControl.Controllers
             }
 
             TempData.Clear();
-            TempData["Vml"] = new List<string> { $"De verkiezing \"{tmpElection.Name}\" is aangemaakt." };
+            TempData["Vml"] = new string[] { $"De verkiezing \"{tmpElection.Name}\" is aangemaakt." };
             return RedirectToAction("Index");
         }
     }

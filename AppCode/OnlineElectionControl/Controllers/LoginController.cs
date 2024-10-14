@@ -31,7 +31,7 @@ namespace OnlineElectionControl.Controllers
 
             if (tmpResult.Count != 1)
             {
-                TempData["Vml"] = new List<string> { "Onbekende gebruikersnaam!" };
+                TempData["Vml"] = new string[] { "Onbekende gebruikersnaam!" };
                 return RedirectToAction("Index");
             }
 
@@ -39,7 +39,7 @@ namespace OnlineElectionControl.Controllers
 
             if (!tmpUser.VerifyPassword(pPassword))
             {
-                TempData["Vml"] = new List<string> { "Onjuist Wachtwoord!" };
+                TempData["Vml"] = new string[] { "Onjuist Wachtwoord!" };
                 return RedirectToAction("Index");
             }
 
