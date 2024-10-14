@@ -26,7 +26,7 @@
         <div class="view_party_right_div party_bordered_box">
             <div id="view_party_members_header">
                 <h3 class="view_party_box_heading_text">Partijleden</h3>
-                @if (Current.UserIsLoggedIn && Current.LoggedInUser!.UserIsPartyLeader)
+                @if (Current.UserIsLoggedIn && Current.LoggedInUser!.UserIsPartyLeader && Current.LoggedInUser.LeadingParty_PartyId == Model.party.PartyId)
                 {
                     <a href="#" class="new-item-btn">
                         Toevoegen

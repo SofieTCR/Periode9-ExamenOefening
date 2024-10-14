@@ -24,7 +24,7 @@ namespace OnlineElectionControl.Controllers
             HttpContext.Session.Remove("LoggedInUserId");
             Current.LoggedInUserId = null;
 
-            TempData["Vml"] = new List<string> { "You have been logged out succesfully!" };
+            TempData["Vml"] = new string[] { "You have been logged out succesfully!" };
 
             return RedirectToAction("Index");
         }
