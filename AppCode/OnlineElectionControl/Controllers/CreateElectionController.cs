@@ -18,6 +18,7 @@ namespace OnlineElectionControl.Controllers
                                                  , string? pElectionDescription
                                                  , DateTime pElectionDate)
         {
+            if (!Current.UserIsLoggedIn || !Current.LoggedInUser!.UserIsGovernment) return RedirectToAction("Index", "Home");
             TempData["pElectionName"] = pElectionName;
             TempData["pElectionDescription"] = pElectionDescription;
             TempData["pElectionDate"] = pElectionDate;

@@ -1,0 +1,43 @@
+﻿@model PartyModel;
+@using OnlineElectionControl.Classes;
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div id="view_party_main">
+     @* Logo, Name, Info header *@
+    <div id="view_party_header">
+        <div class="view_party_left_div" id="view_party_header_left">
+            <div id="view_party_logo"><img src=@Model.party.LogoLink alt="@(Model.party.Name)_Logo" /></div>
+            <div id="view_party_title"><h1>@Model.party.Name</h1></div>
+        </div>
+        <div class="view_party_right_div party_bordered_box">
+            <h3 class="view_party_box_heading_text">Informatie</h3>
+            <p>@Html.Raw(Model.party.Description)</p>
+        </div>
+    </div>
+
+    @* Positions, Party Members *@
+    <div id="view_party_content">
+        <div class="view_party_left_div party_bordered_box">
+            <h3 class="view_party_box_heading_text">Standpunten</h3>
+            <p>@Html.Raw(Model.party.Positions)</p>
+        </div>
+        <div class="view_party_right_div party_bordered_box">
+            <div id="view_party_members_header">
+                <h3 class="view_party_box_heading_text">Partijleden</h3>
+                @if (Current.UserIsLoggedIn && Current.LoggedInUser!.UserIsPartyLeader)
+                {
+                    <a href="#" class="new-item-btn">
+                        Toevoegen
+                        <img src="~/svg-icons/plus-icon.svg" alt="Plus icon to add party members" />
+                    </a>
+                }
+            </div>
+            @foreach(var member in Model.partyMembers)
+            {
+                <p>@member.FirstName @member.LastName | @member.Birthdate.ToString("yyyy") - @member.City</p>
+            }
+        </div>
+    </div>
+</div>

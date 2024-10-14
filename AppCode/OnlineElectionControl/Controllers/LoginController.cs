@@ -22,6 +22,7 @@ namespace OnlineElectionControl.Controllers
         [HttpPost]
         public IActionResult AttemptLogin(string pUsername, string pPassword)
         {
+            if (Current.UserIsLoggedIn) return RedirectToAction("Index", "Home");
             TempData["pUsername"] = pUsername;
             var tmpQuery = "SELECT Id FROM `user` WHERE Username = @pUsername";
             var tmpParameters = new Dictionary<string, object> { { "@pUsername", pUsername } };
@@ -56,6 +57,7 @@ namespace OnlineElectionControl.Controllers
                                            , string pCity
                                            , string pEmail)
         {
+            if (Current.UserIsLoggedIn) return RedirectToAction("Index", "Home");
             TempData["pUsername"] = pUsername;
             TempData["pFirstName"] = pFirstName;
             TempData["pLastName"] = pLastName;

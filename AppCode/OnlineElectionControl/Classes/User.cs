@@ -57,6 +57,15 @@ namespace OnlineElectionControl.Classes
         public DateTime ReferenceDate = DateTime.Today;
 
         /// <summary>
+        /// The PartyId of the party this user is leading if they are leading a party.
+        /// </summary>
+        public int? LeadingParty_PartyId
+        {
+            get;
+            private set;
+        }
+
+        /// <summary>
         /// Validation messages, This list contains the issues encountered during validation.
         /// </summary>
         public List<string> Vml = new List<string>();
@@ -93,6 +102,12 @@ namespace OnlineElectionControl.Classes
         /// </summary>
         public bool UserIsGovernment => UserId != null ? Constants.GovernmentUserIds.Contains((int) UserId) : false;
 
+        /// <summary>
+        /// If the user is leading a party.
+        /// </summary>
+        public bool UserIsPartyLeader => UserId != null ? LeadingParty_PartyId != null : false;
+
+
         // Constructors
 
         /// <summary>
@@ -112,23 +127,26 @@ namespace OnlineElectionControl.Classes
                   , pLastName: pLastName
                   , pEmail: pEmail
                   , pBirthdate: pBirthdate
-                  , pCity: pCity) { }
+                  , pCity: pCity
+                  , pLeadingParty_PartyId: null) { }
 
         /// <summary>
         /// Constructor to get user from the database.
         /// </summary>
         public User(int pId)
         {
-            var tmpQuery = @"SELECT Id AS UserId,
-                                    Username,
-                                    Password,
-                                    FirstName,
-                                    LastName,
-                                    Email,
-                                    Birthdate,
-                                    City
+            var tmpQuery = @"SELECT `user`.Id AS UserId,
+                                    `user`.Username,
+                                    `user`.Password,
+                                    `user`.FirstName,
+                                    `user`.LastName,
+                                    `user`.Email,
+                                    `user`.Birthdate,
+                                    `user`.City,
+                                    `party`.Id AS LeadingParty_PartyId
                                FROM `user`
-                              WHERE Id = @pId";
+                          LEFT JOIN `party` ON `user`.Id = `party`.Leader_UserId
+                              WHERE `user`.Id = @pId";
             var tmpParams = new Dictionary<string, object>() { { "@pId",  pId } };
 
             var tmpResults = Database.ExecuteQuery(pQuery: tmpQuery, pParameters: tmpParams);
@@ -143,6 +161,7 @@ namespace OnlineElectionControl.Classes
             Email = (string) tmpResults[0][nameof(Email)];
             Birthdate = (DateTime) tmpResults[0][nameof(Birthdate)];
             City = (string) tmpResults[0][nameof(City)];
+            LeadingParty_PartyId = tmpResults[0][nameof(LeadingParty_PartyId)] as int?;
         }
 
         /// <summary>
@@ -155,7 +174,8 @@ namespace OnlineElectionControl.Classes
                    , string pLastName
                    , string pEmail
                    , DateTime pBirthdate
-                   , string pCity)
+                   , string pCity
+                   , int? pLeadingParty_PartyId)
         {
             UserId = pId;
             Username = pUsername;
@@ -165,6 +185,7 @@ namespace OnlineElectionControl.Classes
             Email = pEmail;
             Birthdate = pBirthdate;
             City = pCity;
+            LeadingParty_PartyId = pLeadingParty_PartyId;
         }
 
         // Public Methods
@@ -298,25 +319,33 @@ namespace OnlineElectionControl.Classes
         }
 
         public static List<User> GetList(DateTime? pReferenceDate = null
-                                       , bool pIsEligible = false)
+                                       , bool pIsEligible = false
+                                       , bool pIncludingPartyLeaders = true)
         {
             List<User> tmpUsers = new List<User>();
             var tmpReferenceDate = pReferenceDate ?? DateTime.Today;
-            var tmpQuery = @"SELECT Id AS UserId,
-                                    Username,
-                                    Password,
-                                    FirstName,
-                                    LastName,
-                                    Email,
-                                    Birthdate,
-                                    City
+            var tmpQuery = @"SELECT `user`.Id AS UserId,
+                                    `user`.Username,
+                                    `user`.Password,
+                                    `user`.FirstName,
+                                    `user`.LastName,
+                                    `user`.Email,
+                                    `user`.Birthdate,
+                                    `user`.City,
+                                    `party`.Id AS LeadingParty_PartyId
                                FROM `user`
+                          LEFT JOIN `party` ON `user`.Id = `party`.Leader_UserId
                               WHERE ((@pIsEligible = 0) OR TIMESTAMPDIFF(YEAR, Birthdate, @ReferenceDate) >= 18)";
             var tmpParameters = new Dictionary<string, object> 
             { 
                 { "@pIsEligible", pIsEligible }
               , { "@ReferenceDate", tmpReferenceDate }
             };
+
+            if (!pIncludingPartyLeaders)
+            {
+                tmpQuery += " AND `party`.Id IS NULL";
+            }
 
             // Future additional checks go here
 
@@ -332,7 +361,8 @@ namespace OnlineElectionControl.Classes
                                      , pLastName: (string) user[nameof(LastName)]
                                      , pEmail: (string) user[nameof(Email)]
                                      , pBirthdate: (DateTime) user[nameof(Birthdate)]
-                                     , pCity: (string) user[nameof(City)]);
+                                     , pCity: (string) user[nameof(City)]
+                                     , pLeadingParty_PartyId: user[nameof(LeadingParty_PartyId)] as int?);
 
                 tmpUser.ReferenceDate = tmpReferenceDate;
 
