@@ -36,8 +36,8 @@
                 if(Current.UserIsLoggedIn && Current.LoggedInUser!.UserIsGovernment)
                 {
                     <style>.elections-list-home { min-height: 500px; }</style>
-                    <div id="new-election-box">
-                    <a asp-controller="CreateElection" asp-action="Index" id="new-election-btn">
+                    <div class="new-item-box">
+                    <a asp-controller="CreateElection" asp-action="Index" class="new-item-btn">
                         Nieuwe verkiezing aanmaken
                     <img src="~/svg-icons/plus-icon.svg" alt="Plus icon to create new election"/></a>
                     </div>

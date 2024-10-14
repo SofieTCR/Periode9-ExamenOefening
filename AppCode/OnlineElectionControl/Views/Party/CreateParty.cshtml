@@ -1,0 +1,38 @@
+﻿@using OnlineElectionControl.Classes;
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div id="create_party_main">
+
+    <div id="create_party_box">
+
+        <h1 id="create_party_h1">Partij aanmaken</h1>
+
+        <form id="Create-Party-Form" asp-controller="Party" asp-action="AttemptCreateParty" method="post">
+            <label for="PartyName"></label>
+            <input id="PartyName" class="Create-Party-Input" type="text" name="pPartyName" placeholder="Naam" @(TempData["pPartyName"] != null ? $"value={TempData["pPartyName"]}" : "") required maxlength="255" />
+            <br><br>
+            <label for="PartyDescription"></label>
+            <input id="PartyDescription" class="Create-Party-Input" type="text" name="pPartyDescription" placeholder="Omschrijving" @(TempData["pPartyDescription"] != null ? $"value={TempData["pPartyDescription"]}" : "") maxlength="65000" />
+            <br><br>
+            <label for="PartyPositions"></label>
+            <input id="PartyPositions" class="Create-Party-Input" type="text" name="pPartyPositions" placeholder="Standpunten" @(TempData["pPartyPositions"] != null ? $"value={TempData["pPartyPositions"]}" : "") maxlength="65000" />
+            <br><br>
+            <label for="PartyLogoLink"></label>
+            <input id="PartyLogoLink" class="Create-Party-Input" type="text" name="pPartyLogoLink" placeholder="Logo Link" @(TempData["pPartyLogoLink"] != null ? $"value={TempData["pPartyLogoLink"]}" : "") required maxlength="255" />
+            <br><br>
+            <label for="PartyLeader_UserId"></label>
+            <select id="PartyLeader_UserId" class="Create-Party-Input" name="pPartyLeader_UserId" required>
+                @foreach(var possibleLeader in OnlineElectionControl.Classes.User.GetList(pIsEligible: true, pIncludingPartyLeaders: false))
+                {
+                    @:<option value=@possibleLeader.UserId @(TempData["pPartyLeader_UserId"] != null && (int) TempData["pPartyLeader_UserId"]! == possibleLeader.UserId ? "selected" : "")>@possibleLeader.FirstName @possibleLeader.LastName | @possibleLeader.Birthdate.ToString("dd-MM-yyyy")</option>
+                }
+            </select>
+            <br><br>
+            <input type="submit" value="Aanmaken" id="Party-btn" />
+        </form>
+
+    </div>
+
+</div>

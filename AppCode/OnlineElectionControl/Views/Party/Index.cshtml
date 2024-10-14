@@ -1,0 +1,28 @@
+﻿@using OnlineElectionControl.Classes;
+@{
+    ViewData["Title"] = "Index";
+}
+<h1 class="party-h1">Partijen</h1>
+
+<div id="party-main">
+    <div id="party-main-heading">
+        @if(Current.UserIsLoggedIn && Current.LoggedInUser!.UserIsGovernment)
+        {
+        <div class="new-item-box">
+            <a asp-controller="Party" asp-action="CreateParty" class="new-item-btn">
+                Nieuwe partij aanmaken
+                <img src="~/svg-icons/plus-icon.svg" alt="Plus icon to create new party" />
+            </a>
+        </div>
+        }
+    </div>
+    <div id="party-info-wrapper">
+        @foreach(var party in OnlineElectionControl.Classes.Party.GetList(pIncludingLogoLink: true))
+        {
+            <a asp-controller="Party" asp-action="ViewParty" asp-route-pId=@party.PartyId class="party-info-box">
+                <div><img src=@party.LogoLink alt="@(party.Name)_Logo"/></div>
+                <h3>@party.Name</h3>
+            </a>
+        }
+    </div>
+</div>

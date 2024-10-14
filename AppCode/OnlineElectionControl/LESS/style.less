@@ -240,13 +240,13 @@ footer {
         }
     }
 }
-#new-election-box {
+.new-item-box {
     width: 100%;
     display: flex;
     justify-content: flex-end;
     margin-top: 5px;
 }
-#new-election-btn {
+.new-item-btn {
     display: flex;
     text-decoration: none;
     color: black;
@@ -408,4 +408,204 @@ footer {
     margin-top: 3vh;
     min-width: 85px;
     min-height: 26px;
+}
+
+ /* Party Index CSS */
+.party-h1 {
+    margin-top: 5.5vh;
+    font-size: 50px;
+    color: #1F315F;
+    border-bottom: 5px solid #1F315F;
+}
+
+#party-main {
+    background-color: #F0F0F0;
+    border: solid 10px #3E548C;
+    width: 60vw;
+    min-width: 660px;
+    height: 70vh;
+    display: flex;
+    flex-direction: column;
+
+    #party-info-wrapper {
+        width: 100%;
+        display: flex;
+        flex-wrap: wrap;
+    }
+}
+
+#party-main-heading {
+    width: 100%;
+    height: 35px;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.party-info-box {
+    width: calc(20vw - 20px);
+    min-width: 200px;
+    margin: 7px;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    border: solid 3px black;
+    height: 208px;
+
+    div {
+        width: 100%;
+        background-color: #D9D9D9;
+        height: 130px;
+        display: flex;
+        justify-content: center;
+
+        img {
+            height: 100%;
+        }
+    }
+
+    h3 {
+        color: black;
+        font-size: 28px;
+        margin: 10px;
+    }
+}
+/* Party View CSS */
+#view_party_main {
+    margin-top: 3vh;
+    width: 90%;
+    height: 90vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+#view_party_header {
+    width: 100%;
+    height: 30%;
+    min-height: 130px;
+    display: flex;
+    justify-content: space-between
+}
+
+#view_party_content {
+    width: 100%;
+    height: 60%;
+    min-height: 320px;
+    display: flex;
+    justify-content: space-between
+}
+
+.view_party_left_div {
+    width: 65%;
+    height: 100%;
+}
+
+.view_party_right_div {
+    width: 30%;
+    height: 100%;
+}
+
+.party_bordered_box {
+    background-color: #A4B1D2;
+    border: solid 5px #3E548C;
+    display: flex;
+    flex-direction: column;
+    align-items: start;
+    box-sizing: border-box;
+    padding: 6px;
+
+    p {
+        margin: 2px 0px;
+    }
+}
+#view_party_header_left {
+    display: flex;
+    align-items: center;
+}
+#view_party_title {
+    width: calc(70% - 8vw);
+    height: 100%;
+    padding: 0px 4vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    h1 {
+        text-align: center;
+        font-size: 50px;
+        color: #1F315F;
+        border-bottom: 5px solid #1F315F;
+    }
+}
+#view_party_logo {
+    height: 100%;
+    width: 30%;
+    min-width: 160px;
+    border: solid 3px black;
+    box-sizing: border-box;
+    background-color: #D9D9D9;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+        width: 100%;
+    }
+}
+.view_party_box_heading_text {
+    color: #1F315F;
+    border-bottom: 5px solid #1F315F;
+    margin: 2px 0px;
+}
+#view_party_members_header {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+/* Party Create CSS */
+#create_party_main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#create_party_box {
+    background-color: #F0F0F0;
+    border: solid 10px #3E548C;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 473px;
+    min-width: 768px;
+}
+
+.Create-Party-Input {
+    background-color: #A4B1D2;
+    border: 0;
+    height: 5vh;
+    width: 20vw;
+    font-size: 20px;
+    padding: 1px 2px 1px 1vw;
+    min-width: 160px;
+    min-height: 26px;
+    box-sizing: content-box;
+
+}
+
+#Party-btn {
+    background-color: #6A82C1;
+    color: white;
+    font-weight: bold;
+    border: 0;
+    height: 4vh;
+    width: 6vw;
+    font-size: 15px;
+    margin-top: 3vh;
+    min-width: 85px;
+    min-height: 26px;
+    margin-bottom: 15px;
 }
