@@ -372,7 +372,7 @@ namespace OnlineElectionControl.Classes
             { 
                 { "@pIsEligible", pIsEligible }
               , { "@ReferenceDate", tmpReferenceDate }
-              , { "@pPartyId", pPartyId }
+              , { "@pPartyId", pPartyId! }
               , { "@pIncludingNonMembers", pIncludingNonMembers }
             };
 

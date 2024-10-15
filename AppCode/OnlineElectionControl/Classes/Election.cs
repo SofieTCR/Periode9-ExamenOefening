@@ -139,9 +139,9 @@
             string tmpQuery = string.Empty;
             var tmpParameters = new Dictionary<string, object>
             {
-                { "@ElectionId", ElectionId }
+                { "@ElectionId", ElectionId! }
               , { "@Name", Name }
-              , { "@Description", Description }
+              , { "@Description", Description! }
               , { "@Date", Date }
             };
             if (ElectionId == null)
@@ -186,7 +186,7 @@
             return true;
         }
 
-        public static List<Election> GetList(List<ElectionStatus> pStatus = null
+        public static List<Election> GetList(List<ElectionStatus>? pStatus = null
                                            , int? pMaxNumber = null
                                            , SortOrder pSortOrder = SortOrder.NONE
                                            , bool pIncludingDescription = false )

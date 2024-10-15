@@ -6,7 +6,7 @@
 
         public static bool UserIsLoggedIn => LoggedInUserId != null;
 
-        private static User _loggedInUser;
+        private static User? _loggedInUser;
 
         public static User? LoggedInUser
         {

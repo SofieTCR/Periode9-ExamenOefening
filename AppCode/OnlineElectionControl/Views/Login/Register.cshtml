@@ -30,7 +30,7 @@
             <input id="City" class="Register_RegisterInput" type="text" name="pCity" placeholder="Plaats" @(TempData["pCity"] != null ? $"value={TempData["pCity"]}" : "") required maxlength="64"/>
          <br>
          <label for="Birthdate"></label>
-            <input id="Birthdate" class="Register_RegisterInput" type="date" name="pBirthdate" @(TempData["pBirthdate"] != null ? $"value={((DateTime)TempData["pBirthdate"]).ToString(format: "yyyy-MM-dd")}" : "") required />
+            <input id="Birthdate" class="Register_RegisterInput" type="date" name="pBirthdate" @(TempData["pBirthdate"] != null ? $"value={((DateTime)TempData["pBirthdate"]!).ToString(format: "yyyy-MM-dd")}" : "") required />
          <br>
          <label for="Email"></label>
             <input id="Email" class="Register_RegisterInput" type="email" name="pEmail" placeholder="E-Mailadres" @(TempData["pEmail"] != null ? $"value={TempData["pEmail"]}" : "") required maxlength="255"/>
