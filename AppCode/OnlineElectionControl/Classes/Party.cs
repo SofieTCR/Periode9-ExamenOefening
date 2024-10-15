@@ -2,7 +2,7 @@
 {
       public class Party
       {
-            // Election Properties
+            // Party Properties
 
             /// <summary>
             /// Id with which this party is stored in the database.
@@ -228,38 +228,50 @@
 
             public static List<Party> GetList(bool pIncludingDescription = false
                                             , bool pIncludingPositions = false
-                                            , bool pIncludingLogoLink = false)
+                                            , bool pIncludingLogoLink = false
+                                            , List<int>? pPartyIds = null)
             {
-                  List<Party> tmpParties = new List<Party>();
-                  var tmpReferenceDate = DateTime.Today;
-                  var tmpQuery = @"SELECT Id AS PartyId,
-                                                Name,";
-                  if (pIncludingDescription) tmpQuery += "Description,";
-                  if (pIncludingPositions) tmpQuery += "Positions,";
-                  if (pIncludingLogoLink) tmpQuery += "LogoLink,";
-                  tmpQuery += @"Leader_UserId
-                               FROM `party`
-                              WHERE 1 = 1 ";
+                List<Party> tmpParties = new List<Party>();
+                var tmpReferenceDate = DateTime.Today;
+                var tmpQuery = @"SELECT Id AS PartyId,
+                                            Name,";
+                if (pIncludingDescription) tmpQuery += "Description,";
+                if (pIncludingPositions) tmpQuery += "Positions,";
+                if (pIncludingLogoLink) tmpQuery += "LogoLink,";
+                tmpQuery += @"Leader_UserId
+                            FROM `party`
+                            WHERE 1 = 1 ";
 
-                  var tmpParameters = new Dictionary<string, object> { };
+                var tmpParameters = new Dictionary<string, object> { };
 
-                  tmpQuery += ";";
+                if (pPartyIds != null && pPartyIds.Count != 0)
+                {
+                    var partyParms = pPartyIds.Select((id, index) => $"@pPartyId_{index}_").ToList();
+                    tmpQuery += " AND `party`.Id IN (" + string.Join(", ", partyParms) + ")";
 
-                  var tmpResultList = Database.ExecuteQuery(pQuery: tmpQuery, pParameters: tmpParameters);
+                    for (int i = 0; i < pPartyIds.Count; i++)
+                    {
+                        tmpParameters.Add($"@pPartyId_{i}_", pPartyIds[i]);
+                    }
+                }
 
-                  foreach (var tmpParty in tmpResultList)
-                  {
-                        tmpParties.Add(new Party(pId: (int) tmpParty[nameof(PartyId)]
-                                              , pName: (string) tmpParty[nameof(Name)]
-                                              , pDescription: pIncludingDescription ? tmpParty[nameof(Description)] as string : null
-                                              , pPositions: pIncludingPositions ? tmpParty[nameof(Positions)] as string : null
-                                              , pLogoLink: pIncludingLogoLink ? tmpParty[nameof(LogoLink)] as string : null
-                                              , pLeader_UserId: (int) tmpParty[nameof(Leader_UserId)]
-                        ));
-                  }
+                tmpQuery += ";";
 
-                  return tmpParties;
-            }
+                var tmpResultList = Database.ExecuteQuery(pQuery: tmpQuery, pParameters: tmpParameters);
+
+                foreach (var tmpParty in tmpResultList)
+                {
+                    tmpParties.Add(new Party(pId: (int) tmpParty[nameof(PartyId)]
+                                            , pName: (string) tmpParty[nameof(Name)]
+                                            , pDescription: pIncludingDescription ? tmpParty[nameof(Description)] as string : null
+                                            , pPositions: pIncludingPositions ? tmpParty[nameof(Positions)] as string : null
+                                            , pLogoLink: pIncludingLogoLink ? tmpParty[nameof(LogoLink)] as string : null
+                                            , pLeader_UserId: (int) tmpParty[nameof(Leader_UserId)]
+                    ));
+                }
+
+                return tmpParties;
+        }
 
       }
 }

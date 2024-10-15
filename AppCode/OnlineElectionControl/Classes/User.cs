@@ -350,8 +350,8 @@ namespace OnlineElectionControl.Classes
         public static List<User> GetList(DateTime? pReferenceDate = null
                                        , bool pIsEligible = false
                                        , bool pIncludingPartyLeaders = true
-                                       , int? pPartyId = null
-                                       , bool pIncludingNonMembers = false)
+                                       , List<int>? pPartyIds = null
+                                       , bool pIncludingNonMembers = true)
         {
             List<User> tmpUsers = new List<User>();
             var tmpReferenceDate = pReferenceDate ?? DateTime.Today;
@@ -372,7 +372,6 @@ namespace OnlineElectionControl.Classes
             { 
                 { "@pIsEligible", pIsEligible }
               , { "@ReferenceDate", tmpReferenceDate }
-              , { "@pPartyId", pPartyId! }
               , { "@pIncludingNonMembers", pIncludingNonMembers }
             };
 
@@ -381,9 +380,26 @@ namespace OnlineElectionControl.Classes
                 tmpQuery += " AND `party`.Id IS NULL";
             }
 
-            if (pPartyId != null)
+            if (!pIncludingNonMembers)
             {
-                tmpQuery += " AND (`user`.Party_PartyId = @pPartyId OR ((@pIncludingNonMembers = 1) AND `user`.Party_PartyId IS NULL))";
+                tmpQuery += " AND `user`.Party_PartyId IS NOT NULL";
+            }
+
+            if (pPartyIds != null && pPartyIds.Count != 0)
+            {
+                var partyParms = pPartyIds.Select((id, index) => $"@pPartyId_{index}_").ToList();
+                tmpQuery += " AND (`user`.Party_PartyId IN (" + string.Join(", ", partyParms) + ")";
+
+                if (pIncludingNonMembers)
+                {
+                    tmpQuery += " OR `user`.Party_PartyId IS NULL";
+                }
+
+                tmpQuery += ")";
+                for (int i = 0; i < pPartyIds.Count; i++)
+                {
+                    tmpParameters.Add($"@pPartyId_{i}_", pPartyIds[i]);
+                }
             }
 
             // Future additional checks go here

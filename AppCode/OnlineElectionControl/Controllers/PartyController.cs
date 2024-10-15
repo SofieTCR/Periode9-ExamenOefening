@@ -62,6 +62,7 @@ namespace OnlineElectionControl.Controllers
 
             TempData.Clear();
             TempData["Vml"] = new string[] { $"De partij \"{tmpParty.Name}\" is aangemaakt." };
+            Current.DeleteCache();
 
             return RedirectToAction("CreateParty");
         }

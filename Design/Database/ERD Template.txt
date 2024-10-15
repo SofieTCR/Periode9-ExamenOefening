@@ -23,10 +23,10 @@ P Id
 - Description
 - Date
 
-ElectableMembers:
-P ElectionId
-P UserId
-- Index
+ElectableMember:
+P User_UserId
+P Election_ElectionId
+- Ordering
 
 Vote:
 P ElectionId

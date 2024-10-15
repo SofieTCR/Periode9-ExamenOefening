@@ -10,7 +10,8 @@ namespace OnlineElectionControl.Models
         public PartyModel(int pId)
         {
             party = new Party(pId: pId);
-            partyMembers = User.GetList(pPartyId: pId);
+            partyMembers = User.GetList(pPartyIds: new List<int> { pId }
+                                      , pIncludingNonMembers: false);
         }
     }
 }
