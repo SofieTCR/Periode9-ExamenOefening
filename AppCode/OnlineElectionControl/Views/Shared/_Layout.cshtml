@@ -49,10 +49,10 @@
 
             <div class="vml-message">
 
-                @if (TempData["Vml"] != null) foreach (var message in (string[])TempData["Vml"])
-                    {
-                        <p>@message</p>
-                    }
+                @if (TempData["Vml"] != null) foreach (var message in (string[]) TempData["Vml"]!)
+                {
+                    <p>@message</p>
+                }
 
             </div>
 

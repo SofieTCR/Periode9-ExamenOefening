@@ -171,11 +171,11 @@
                   string tmpQuery = string.Empty;
                   var tmpParameters = new Dictionary<string, object>
                   {
-                      { "@PartyId", PartyId }
+                      { "@PartyId", PartyId! }
                     , { "@Name", Name }
-                    , { "@Description", Description }
-                    , { "@Positions", Positions }
-                    , { "@LogoLink", LogoLink }
+                    , { "@Description", Description! }
+                    , { "@Positions", Positions! }
+                    , { "@LogoLink", LogoLink! }
                     , { "@Leader_UserId", Leader_UserId }
                   };
                   if (PartyId == null)

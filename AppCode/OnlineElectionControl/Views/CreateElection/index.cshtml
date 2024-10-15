@@ -16,7 +16,7 @@
             <input id="ElectionDescription" class="Create-Election-Input" type="text" name="pElectionDescription" placeholder="Omschrijving" maxlength="65000" />
             <br><br>
             <label for="ElectionDate"></label>
-            <input id="ElectionDate" class="Create-Election-Input" type="date" name="pElectionDate" @(TempData["pElectionDate"] != null ? $"value={((DateTime)TempData["pElectionDate"]).ToString(format: "yyyy-MM-dd")}" : "") required />
+            <input id="ElectionDate" class="Create-Election-Input" type="date" name="pElectionDate" @(TempData["pElectionDate"] != null ? $"value={((DateTime)TempData["pElectionDate"]!).ToString(format: "yyyy-MM-dd")}" : "") required />
             <br><br>
             <input type="submit" value="Aanmaken" id="Election-btn" />
         </form>
