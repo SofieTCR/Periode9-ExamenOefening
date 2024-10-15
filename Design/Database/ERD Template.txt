@@ -7,6 +7,7 @@ P Id
 - Email Address
 - Birthdate
 - City
+- Party_PartyId
 
 Party:
 P Id
@@ -15,10 +16,6 @@ P Id
 - Positions
 - LogoLink
 F Leader_UserId
-
-PartyMember:
-P UserId
-P PartyId
 
 Election:
 P Id
