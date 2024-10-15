@@ -57,7 +57,14 @@
                             <a href="#"><img src="~/svg-icons/voting-icon.svg" alt="vote icon"/></a>
                         } else
                         {
-                            <a href="#"><img src="~/svg-icons/grey-vote-icon.svg" alt="disabled vote icon"/></a>
+                            if (Current.UserIsLoggedIn && Current.LoggedInUser!.UserIsPartyLeader)
+                            {
+                                <a asp-controller="ElectableMember"><img src="~/svg-icons/candidates-icon.svg" alt="select candidates icon" /></a>
+                            }
+                            else
+                            {
+                                <div><img src="~/svg-icons/grey-vote-icon.svg" alt="disabled vote icon" /></div>
+                            }
                         }
                     }
                     

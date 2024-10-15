@@ -6,7 +6,8 @@ namespace OnlineElectionControl.Models
         public List<User> Members;
         public PartyMemberModel(int pId)
         {
-            Members = User.GetList(pPartyId: pId, pIncludingNonMembers: true);
+            Members = User.GetList(pIsEligible: true
+                                 , pPartyIds: new List<int> { pId });
         }
     }
 }

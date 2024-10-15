@@ -19,5 +19,10 @@
                 return _loggedInUser;
             }
         }
+
+        public static void DeleteCache()
+        {
+            _loggedInUser = null;
+        }
     }
 }

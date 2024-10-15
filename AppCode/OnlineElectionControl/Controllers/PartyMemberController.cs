@@ -66,6 +66,7 @@ namespace OnlineElectionControl.Controllers
             {
                 TempData.Clear();
                 TempData["Vml"] = new string[] { "All party members saved succesfully!" };
+                Current.DeleteCache();
             }
 
             return RedirectToAction("Index");

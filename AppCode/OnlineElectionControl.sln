@@ -5,7 +5,7 @@ VisualStudioVersion = 17.11.35312.102
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineElectionControl", "OnlineElectionControl\OnlineElectionControl.csproj", "{480EC64D-E18D-4EEF-B692-3B10B0F12C9D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OnlineElectionControl.Tests", "OnlineElectionControlTests\OnlineElectionControl.Tests.csproj", "{1CFF2924-B828-43A5-AF53-3A0F92162E6E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "OnlineElectionControl.Tests", "OnlineElectionControlTests\OnlineElectionControl.Tests.csproj", "{1CFF2924-B828-43A5-AF53-3A0F92162E6E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
