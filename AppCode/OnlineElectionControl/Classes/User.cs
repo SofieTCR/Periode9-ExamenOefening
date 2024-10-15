@@ -52,9 +52,9 @@ namespace OnlineElectionControl.Classes
         public string City;
 
         /// <summary>
-        /// The date on which data should be gathered about this user.
+        /// The PartyId of the party this user is a member of.
         /// </summary>
-        public DateTime ReferenceDate = DateTime.Today;
+        public int? Party_PartyId;
 
         /// <summary>
         /// The PartyId of the party this user is leading if they are leading a party.
@@ -64,6 +64,11 @@ namespace OnlineElectionControl.Classes
             get;
             private set;
         }
+
+        /// <summary>
+        /// The date on which data should be gathered about this user.
+        /// </summary>
+        public DateTime ReferenceDate = DateTime.Today;
 
         /// <summary>
         /// Validation messages, This list contains the issues encountered during validation.
@@ -107,6 +112,11 @@ namespace OnlineElectionControl.Classes
         /// </summary>
         public bool UserIsPartyLeader => UserId != null ? LeadingParty_PartyId != null : false;
 
+        /// <summary>
+        /// If the user is leading a a member of a party.
+        /// </summary>
+        public bool UserIsPartyMember => Party_PartyId != null;
+
 
         // Constructors
 
@@ -118,7 +128,8 @@ namespace OnlineElectionControl.Classes
                   , string pLastName
                   , string pEmail
                   , DateTime pBirthdate
-                  , string pCity)
+                  , string pCity
+                  , int? pParty_PartyId = null)
 
              : this(pId: null
                   , pUsername: pUsername
@@ -128,7 +139,8 @@ namespace OnlineElectionControl.Classes
                   , pEmail: pEmail
                   , pBirthdate: pBirthdate
                   , pCity: pCity
-                  , pLeadingParty_PartyId: null) { }
+                  , pLeadingParty_PartyId: null
+                  , pParty_PartyId: pParty_PartyId) { }
 
         /// <summary>
         /// Constructor to get user from the database.
@@ -143,6 +155,7 @@ namespace OnlineElectionControl.Classes
                                     `user`.Email,
                                     `user`.Birthdate,
                                     `user`.City,
+                                    `user`.Party_PartyId,
                                     `party`.Id AS LeadingParty_PartyId
                                FROM `user`
                           LEFT JOIN `party` ON `user`.Id = `party`.Leader_UserId
@@ -162,6 +175,7 @@ namespace OnlineElectionControl.Classes
             Birthdate = (DateTime) tmpResults[0][nameof(Birthdate)];
             City = (string) tmpResults[0][nameof(City)];
             LeadingParty_PartyId = tmpResults[0][nameof(LeadingParty_PartyId)] as int?;
+            Party_PartyId = tmpResults[0][nameof(Party_PartyId)] as int?;
         }
 
         /// <summary>
@@ -175,7 +189,8 @@ namespace OnlineElectionControl.Classes
                    , string pEmail
                    , DateTime pBirthdate
                    , string pCity
-                   , int? pLeadingParty_PartyId)
+                   , int? pLeadingParty_PartyId
+                   , int? pParty_PartyId)
         {
             UserId = pId;
             Username = pUsername;
@@ -186,6 +201,7 @@ namespace OnlineElectionControl.Classes
             Birthdate = pBirthdate;
             City = pCity;
             LeadingParty_PartyId = pLeadingParty_PartyId;
+            Party_PartyId = pParty_PartyId;
         }
 
         // Public Methods
@@ -227,6 +243,15 @@ namespace OnlineElectionControl.Classes
             if (City.Length < 3) Vml.Add("City is too short!");
             if (City.Length > 64) Vml.Add("City is too long!");
 
+            // Party_PartyId validation
+            if (Party_PartyId != null)
+            {
+                tmpQuery = "SELECT Id AS PartyId FROM `party` WHERE Id = @PartyId";
+                tmpParams = new Dictionary<string, object>() { { "@PartyId", Party_PartyId } };
+                tmpResult = Database.ExecuteQuery(tmpQuery, tmpParams);
+                if (tmpResult.Count != 1) Vml.Add("Party_PartyId does not exist!");
+            }
+
             return Vml.Count == 0;
         }
 
@@ -263,6 +288,7 @@ namespace OnlineElectionControl.Classes
               , { "@Email", Email }
               , { "@Birthdate", Birthdate }
               , { "@City", City }
+              , { "@Party_PartyId", Party_PartyId! }
             };
             if (UserId == null)
             {
@@ -273,14 +299,16 @@ namespace OnlineElectionControl.Classes
                                                , Lastname
                                                , Email
                                                , Birthdate
-                                               , City)
+                                               , City
+                                               , Party_PartyId)
                                          VALUES (@Username
                                                , @Password
                                                , @Firstname
                                                , @Lastname
                                                , @Email
                                                , @Birthdate
-                                               , @City);
+                                               , @City
+                                               , @Party_PartyId);
                              SELECT LAST_INSERT_ID();";
 
                 var tmpResultingId = Database.ExecuteQuery(pQuery: tmpQuery, pParameters: tmpParameters);
@@ -299,6 +327,7 @@ namespace OnlineElectionControl.Classes
                                              , Email = @Email
                                              , Birthdate = @Birthdate
                                              , City = @City 
+                                             , Party_PartyId = @Party_PartyId 
                                          WHERE Id = @UserId;";
 
                 if (Database.ExecuteNonQuery(pQuery: tmpQuery, pParameters: tmpParameters) != 1) throw new Exception("Something went wrong during the execution of the non-query!");
@@ -320,7 +349,9 @@ namespace OnlineElectionControl.Classes
 
         public static List<User> GetList(DateTime? pReferenceDate = null
                                        , bool pIsEligible = false
-                                       , bool pIncludingPartyLeaders = true)
+                                       , bool pIncludingPartyLeaders = true
+                                       , int? pPartyId = null
+                                       , bool pIncludingNonMembers = false)
         {
             List<User> tmpUsers = new List<User>();
             var tmpReferenceDate = pReferenceDate ?? DateTime.Today;
@@ -332,6 +363,7 @@ namespace OnlineElectionControl.Classes
                                     `user`.Email,
                                     `user`.Birthdate,
                                     `user`.City,
+                                    `user`.Party_PartyId,
                                     `party`.Id AS LeadingParty_PartyId
                                FROM `user`
                           LEFT JOIN `party` ON `user`.Id = `party`.Leader_UserId
@@ -340,11 +372,18 @@ namespace OnlineElectionControl.Classes
             { 
                 { "@pIsEligible", pIsEligible }
               , { "@ReferenceDate", tmpReferenceDate }
+              , { "@pPartyId", pPartyId }
+              , { "@pIncludingNonMembers", pIncludingNonMembers }
             };
 
             if (!pIncludingPartyLeaders)
             {
                 tmpQuery += " AND `party`.Id IS NULL";
+            }
+
+            if (pPartyId != null)
+            {
+                tmpQuery += " AND (`user`.Party_PartyId = @pPartyId OR ((@pIncludingNonMembers = 1) AND `user`.Party_PartyId IS NULL))";
             }
 
             // Future additional checks go here
@@ -362,7 +401,8 @@ namespace OnlineElectionControl.Classes
                                      , pEmail: (string) user[nameof(Email)]
                                      , pBirthdate: (DateTime) user[nameof(Birthdate)]
                                      , pCity: (string) user[nameof(City)]
-                                     , pLeadingParty_PartyId: user[nameof(LeadingParty_PartyId)] as int?);
+                                     , pLeadingParty_PartyId: user[nameof(LeadingParty_PartyId)] as int?
+                                     , pParty_PartyId: user[nameof(Party_PartyId)] as int?);
 
                 tmpUser.ReferenceDate = tmpReferenceDate;
 

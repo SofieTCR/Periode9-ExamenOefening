@@ -18,7 +18,7 @@ namespace OnlineElectionControl.Controllers
             {
                 return View(new PartyModel(pId: (int) pId));
             }
-            catch(Exception ex)
+            catch
             {
                 TempData.Clear();
                 TempData["Vml"] = new string[] { $"Partij met Id {pId} niet gevonden." };
@@ -63,7 +63,7 @@ namespace OnlineElectionControl.Controllers
             TempData.Clear();
             TempData["Vml"] = new string[] { $"De partij \"{tmpParty.Name}\" is aangemaakt." };
 
-            return View("CreateParty");
+            return RedirectToAction("CreateParty");
         }
     }
 }

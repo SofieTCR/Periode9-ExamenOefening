@@ -129,6 +129,48 @@ namespace OnlineElectionControl.Tests.ClassesTests
             result.Should().Be(false);
         }
 
+        [Fact]
+        public void User_UserIsPartyLeader_ReturnsFalse()
+        {
+            // Arrange
+            var tmpUser = new User(pUsername: "username"
+                                 , pFirstName: "firstname"
+                                 , pLastName: "lastname"
+                                 , pEmail: "email"
+                                 , pBirthdate: DateTime.Now
+                                 , pCity: "city"
+                                  );
+
+            // Act
+            var result = tmpUser.UserIsPartyLeader;
+
+            // Assert
+            result.Should().Be(false);
+        }
+
+        [Theory]
+        [InlineData(2, true)]
+        [InlineData(17, true)]
+        [InlineData(null, false)]
+        public void User_UserIsPartyMember_IsCorrect(int? pParty_PartyId, bool pResult)
+        {
+            // Arrange
+            var tmpUser = new User(pUsername: "username"
+                                 , pFirstName: "firstname"
+                                 , pLastName: "lastname"
+                                 , pEmail: "email"
+                                 , pBirthdate: DateTime.Now
+                                 , pCity: "city"
+                                 , pParty_PartyId: pParty_PartyId
+                                  );
+
+            // Act
+            var result = tmpUser.UserIsPartyMember;
+
+            // Assert
+            result.Should().Be(pResult);
+        }
+
         [Theory]
         [InlineData("Password1")]
         [InlineData("SomeWord26")]

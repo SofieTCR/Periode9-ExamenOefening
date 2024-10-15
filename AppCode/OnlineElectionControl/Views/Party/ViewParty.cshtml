@@ -1,7 +1,7 @@
 ﻿@model PartyModel;
 @using OnlineElectionControl.Classes;
 @{
-    ViewData["Title"] = "Index";
+    ViewData["Title"] = "ViewParty";
 }
 
 <div id="view_party_main">
@@ -28,7 +28,7 @@
                 <h3 class="view_party_box_heading_text">Partijleden</h3>
                 @if (Current.UserIsLoggedIn && Current.LoggedInUser!.UserIsPartyLeader && Current.LoggedInUser.LeadingParty_PartyId == Model.party.PartyId)
                 {
-                    <a href="#" class="new-item-btn">
+                    <a asp-controller="PartyMember" asp-action="Index" class="new-item-btn">
                         Toevoegen
                         <img src="~/svg-icons/plus-icon.svg" alt="Plus icon to add party members" />
                     </a>

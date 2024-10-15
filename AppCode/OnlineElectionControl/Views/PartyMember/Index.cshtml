@@ -1,0 +1,24 @@
+﻿@model PartyMemberModel;
+@using OnlineElectionControl.Classes;
+@using System.Linq;
+@{
+    ViewData["Title"] = "Index";
+}
+
+<div id="party_member_main">
+    <div id="party_member_form_box">
+        <h1 class="party_members_h1">Partijleden</h1>
+
+        <form id="Party_Member_Form" asp-controller="PartyMember" asp-action="AttemptSavePartyMember" method="post">
+            <div class="scrollable-list">
+                @foreach(var member in Model.Members)
+                {
+                    <label>
+                        <input type="checkbox" name="pIds" value=@member.UserId @((TempData["pIds"] != null && ((int[]) TempData["pIds"]!).Contains((int) member.UserId!)) || member.UserIsPartyMember ? "checked" : "")> @member.FirstName @member.LastName | @member.Birthdate.ToString("yyyy") - @member.City
+                    </label>
+                }
+            </div>
+            <input type="submit" value="Opslaan" id="party_member_save_btn" />
+        </form>
+    </div>
+</div>

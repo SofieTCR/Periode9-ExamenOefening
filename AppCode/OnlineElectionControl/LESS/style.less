@@ -43,10 +43,16 @@ nav {
     width: 30vw;
     border: solid black 4px;
     display: flex;
+    flex-direction: column;
     align-items: center;
     justify-content: center;
     margin-top: 1vh;
-    font-size: 20px;
+    font-size: 16px;
+    height: fit-content;
+
+    p {
+        margin: 2px 0px;
+    }
 }
 
 .hidden {
@@ -517,6 +523,7 @@ footer {
     align-items: start;
     box-sizing: border-box;
     padding: 6px;
+    overflow-y: auto;
 
     p {
         margin: 2px 0px;
@@ -613,4 +620,70 @@ footer {
     min-width: 85px;
     min-height: 26px;
     margin-bottom: 15px;
+}
+/* Party Member CSS */
+#party_member_main {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#party_member_save_btn {
+    background-color: #6A82C1;
+    color: white;
+    font-weight: bold;
+    border: 0;
+    height: 4vh;
+    width: 6vw;
+    font-size: 15px;
+    margin: 5vh 0px;
+    min-width: 85px;
+    min-height: 26px;
+}
+
+#party_member_form_box {
+    background-color: #F0F0F0;
+    border: solid 10px #3E548C;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    min-height: 473px;
+    min-width: 500px;
+
+    form {
+        height: 100%;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .scrollable-list {
+        min-height: 350px;
+        width: 20vw;
+    }
+}
+.scrollable-list {
+    min-height: 200px;
+    min-width: 280px;
+    overflow-y: auto;
+    border: 1px solid #ccc;
+    padding: 10px;
+    border-radius: 5px;
+    background-color: #D9D9D9;
+}
+
+.scrollable-list label {
+    display: block;
+    padding: 5px;
+    cursor: pointer;
+}
+
+.scrollable-list input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.scrollable-list label:hover {
+    background-color: #C0C0C0;
 }
