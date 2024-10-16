@@ -59,7 +59,7 @@
                         {
                             if (Current.UserIsLoggedIn && Current.LoggedInUser!.UserIsPartyLeader)
                             {
-                                <a asp-controller="ElectableMember"><img src="~/svg-icons/candidates-icon.svg" alt="select candidates icon" /></a>
+                                <a asp-controller="ElectableMember" asp-action="Index" asp-route-pId=@tmpElection.ElectionId><img src="~/svg-icons/candidates-icon.svg" alt="select candidates icon" /></a>
                             }
                             else
                             {

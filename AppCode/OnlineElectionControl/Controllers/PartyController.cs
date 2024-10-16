@@ -24,7 +24,6 @@ namespace OnlineElectionControl.Controllers
                 TempData["Vml"] = new string[] { $"Partij met Id {pId} niet gevonden." };
                 return RedirectToAction("Index");
             }
-            
         }
 
         public IActionResult CreateParty()
