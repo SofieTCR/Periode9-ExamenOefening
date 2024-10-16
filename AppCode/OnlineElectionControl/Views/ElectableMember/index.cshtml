@@ -1,6 +1,26 @@
-﻿@using OnlineElectionControl.Classes;
+﻿@model ElectableMemberModel;
+@using OnlineElectionControl.Classes;
 @{
     ViewData["Title"] = "Electable Members";
 }
 
-so electable!
+<div id="party_member_main">
+    <div id="party_member_form_box">
+        <h1 class="party_members_h1">Kandidaten</h1>
+
+        <form id="Party_Member_Form" asp-controller="ElectableMember" asp-action="AttemptSaveElectableMember" method="post">
+            <div class="scrollable-list">
+                @foreach (var member in Model.SortedMembers)
+                {
+                    <label>
+                        <input type="checkbox" name="pIds" value=@member.user.UserId @((TempData["pIds"] != null 
+                                                                                    && ((int[]) TempData["pIds"]!).Contains((int) member.user.UserId!)) 
+                                                                                    || member.electableMember != null ? "checked" : "")>
+                        @member.user.FirstName @member.user.LastName | @member.user.Birthdate.ToString("yyyy") - @member.user.City
+                    </label>
+                }
+            </div>
+            <input type="submit" value="Opslaan" id="party_member_save_btn" />
+        </form>
+    </div>
+</div>
