@@ -52,9 +52,9 @@
                         @tmpElection.Date.ToString("dd-MM-yyyy")
                     </p>
                     @{
-                        if(tmpElection.Status == ElectionStatus.InProgress)
+                        if(tmpElection.Status == ElectionStatus.InProgress && Current.UserCanVote(pElectionId: (int) tmpElection.ElectionId!))
                         {
-                            <a href="#"><img src="~/svg-icons/voting-icon.svg" alt="vote icon"/></a>
+                            <a asp-controller="Vote" asp-action="Index" asp-route-pid=@tmpElection.ElectionId><img src="~/svg-icons/voting-icon.svg" alt="vote icon" /></a>
                         } else
                         {
                             if (Current.UserIsLoggedIn && Current.LoggedInUser!.UserIsPartyLeader)

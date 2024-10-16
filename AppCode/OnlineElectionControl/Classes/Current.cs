@@ -24,5 +24,13 @@
         {
             _loggedInUser = null;
         }
+
+        public static bool UserCanVote(int pElectionId)
+        {
+            if (!UserIsLoggedIn || !LoggedInUser!.UserIsEligible) return false;
+            var tmpQuery = "SELECT Voter_UserId FROM `vote` WHERE `vote`.Voter_UserId = @pUserId AND `vote`.Voted_ElectionId = @pElectionId;";
+            var tmpParams = new Dictionary<string, object> { { "@pUserId", LoggedInUserId! }, { "@pElectionId", pElectionId } };
+            return (Database.ExecuteQuery(pQuery: tmpQuery, pParameters: tmpParams).Count == 0);
+        }
     }
 }
