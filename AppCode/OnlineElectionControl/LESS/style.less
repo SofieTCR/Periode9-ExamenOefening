@@ -653,6 +653,8 @@ footer {
     align-items: center;
     min-height: 473px;
     min-width: 500px;
+    padding: 1vh 2vw;
+    margin: 2vh 4vw;
 
     form {
         height: 100%;
@@ -663,12 +665,14 @@ footer {
     }
     .scrollable-list {
         min-height: 350px;
-        width: 20vw;
+        width: fit-content;
     }
 }
 .scrollable-list {
     min-height: 200px;
-    min-width: 280px;
+    height: 50vh;
+    min-width: 28px;
+
     overflow-y: auto;
     border: 1px solid #ccc;
     padding: 10px;
@@ -682,7 +686,7 @@ footer {
     cursor: pointer;
 }
 
-.scrollable-list input[type="checkbox"] {
+.scrollable-list input[type="checkbox"][type="radio"] {
     margin-right: 10px;
 }
 
@@ -696,4 +700,18 @@ footer {
 }
 .reorderable-item-dragging {
     opacity: 0.5;
+}
+
+/* Vote CSS */
+#vote_save_btn {
+    background-color: #6A82C1;
+    color: white;
+    font-weight: bold;
+    border: 0;
+    height: 4vh;
+    width: 8vw;
+    font-size: 15px;
+    margin: 5vh 0px;
+    min-width: 145px;
+    min-height: 26px;
 }

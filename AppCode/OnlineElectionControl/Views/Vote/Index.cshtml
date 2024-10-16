@@ -5,21 +5,27 @@
     ViewData["Title"] = "Vote";
 }
 
-voting
 <div id="party_member_main">
     <div id="party_member_form_box">
         <h1 class="party_members_h1">@Model.Election.Name</h1>
 
-        <form id="Party_Member_Form" asp-controller="PartyMember" asp-action="AttemptSavePartyMember" method="post">
+        <form id="Party_Member_Form" asp-controller="Vote" asp-action="AttemptSaveVote" method="post">
+            <input hidden name="pElectionId" value="@Model.Election.ElectionId" />
             <div class="scrollable-list">
-                @* @foreach (var member in Model.Members)
-                {
-                    <label>
-                        <input type="checkbox" name="pIds" value=@member.UserId @((TempData["pIds"] != null && ((int[])TempData["pIds"]!).Contains((int)member.UserId!)) || member.UserIsPartyMember ? "checked" : "")> @member.FirstName @member.LastName | @member.Birthdate.ToString("yyyy") - @member.City
-                    </label>
-                } *@
+                 @foreach (var kvp in Model.Members)
+                 {
+                     <div style="font-weight: 900;">
+                         @kvp.Key
+                    </div>
+                    foreach (var member in kvp)
+                    {
+                        <label>
+                            <input type="radio" name="pId" value=@member.User.UserId>@member.User.FirstName @member.User.LastName | @member.User.Birthdate.ToString("yyyy") - @member.User.City
+                        </label>
+                    }
+                 }
             </div>
-            <input type="submit" value="Opslaan" id="party_member_save_btn" />
+            <input type="submit" value="Stem Uitbrengen" id="vote_save_btn" />
         </form>
     </div>
 </div>
