@@ -20,7 +20,7 @@
                     foreach (var member in kvp)
                     {
                         <label>
-                            <input type="radio" name="pId" value=@member.User.UserId>@member.User.FirstName @member.User.LastName | @member.User.Birthdate.ToString("yyyy") - @member.User.City
+                            <input required type="radio" name="pId" value=@member.User.UserId>@member.User.FirstName @member.User.LastName | @member.User.Birthdate.ToString("yyyy") - @member.User.City
                         </label>
                     }
                  }
