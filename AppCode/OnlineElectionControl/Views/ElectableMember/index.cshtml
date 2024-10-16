@@ -9,18 +9,60 @@
         <h1 class="party_members_h1">Kandidaten</h1>
 
         <form id="Party_Member_Form" asp-controller="ElectableMember" asp-action="AttemptSaveElectableMember" method="post">
-            <div class="scrollable-list">
+            <input hidden name="pElectionId" value="@Model.ElectionId"/>
+            <div class="scrollable-list" id="reorderable-list">
                 @foreach (var member in Model.SortedMembers)
                 {
-                    <label>
-                        <input type="checkbox" name="pIds" value=@member.user.UserId @((TempData["pIds"] != null 
-                                                                                    && ((int[]) TempData["pIds"]!).Contains((int) member.user.UserId!)) 
-                                                                                    || member.electableMember != null ? "checked" : "")>
+                    <label class="reorderable-item" draggable="true">
+                        <input type="checkbox" name="pIds" value=@member.user.UserId @(member.electableMember != null ? "checked" : "")>
                         @member.user.FirstName @member.user.LastName | @member.user.Birthdate.ToString("yyyy") - @member.user.City
                     </label>
                 }
             </div>
             <input type="submit" value="Opslaan" id="party_member_save_btn" />
         </form>
+        <script>
+            const checkboxList = document.getElementById('reorderable-list');
+            let draggedItem = null;
+
+            function handleDragStart(e) {
+                draggedItem = this;
+                setTimeout(() => {
+                    this.classList.add('reorderable-item-dragging');
+                }, 0);
+            }
+
+            function handleDragOver(e) {
+                e.preventDefault();
+            }
+
+            function handleDrop(e) {
+                e.preventDefault();
+                if (this !== draggedItem) {
+                    const allItems = [...checkboxList.querySelectorAll('.reorderable-item')];
+                    const draggedIndex = allItems.indexOf(draggedItem);
+                    const targetIndex = allItems.indexOf(this);
+
+                    if (draggedIndex > targetIndex) {
+                        checkboxList.insertBefore(draggedItem, this);
+                    } else {
+                        checkboxList.insertBefore(draggedItem, this.nextSibling);
+                    }
+                }
+            }
+
+            function handleDragEnd() {
+                this.classList.remove('reorderable-item-dragging');
+                draggedItem = null;
+            }
+
+            const items = document.querySelectorAll('.reorderable-item');
+            items.forEach(item => {
+                item.addEventListener('dragstart', handleDragStart);
+                item.addEventListener('dragover', handleDragOver);
+                item.addEventListener('drop', handleDrop);
+                item.addEventListener('dragend', handleDragEnd);
+            });
+        </script>
     </div>
 </div>

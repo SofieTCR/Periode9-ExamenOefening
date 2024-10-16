@@ -58,8 +58,8 @@ namespace OnlineElectionControl.Controllers
                 {
                     tmpVml.Add($"User: {changedMember.FirstName} {changedMember.LastName} with Id ({changedMember.UserId}) failed to save!");
                     tmpVml.AddRange(changedMember.Vml);
-                    }
                 }
+            }
 
             if (tmpVml.Count > 0) TempData["Vml"] = tmpVml.ToArray();
             else if (tmpChangedMembers.Count > 0)
