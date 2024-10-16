@@ -29,6 +29,6 @@ P Election_ElectionId
 - Ordering
 
 Vote:
-P ElectionId
+P Voted_ElectionId
 - Elected_UserId
-P Voter_UserId 
+P Voter_UserId

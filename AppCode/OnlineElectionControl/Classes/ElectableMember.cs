@@ -98,7 +98,7 @@
 
             var tmpResults = Database.ExecuteQuery(pQuery: tmpQuery, pParameters: tmpParams);
 
-            if (tmpResults.Count != 1) throw new Exception($"Did not find a party with ElectableMember with UserId: {pUserId} and ElectionId {pElectionId}");
+            if (tmpResults.Count != 1) throw new Exception($"Did not find an ElectableMember with UserId: {pUserId} and ElectionId {pElectionId}");
 
             User_UserId = pUserId;
             Election_ElectionId = pElectionId;
