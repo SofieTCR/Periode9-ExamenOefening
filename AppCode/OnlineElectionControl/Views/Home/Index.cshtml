@@ -55,9 +55,10 @@
                         if(tmpElection.Status == ElectionStatus.InProgress && Current.UserCanVote(pElectionId: (int) tmpElection.ElectionId!))
                         {
                             <a asp-controller="Vote" asp-action="Index" asp-route-pid=@tmpElection.ElectionId><img src="~/svg-icons/voting-icon.svg" alt="vote icon" /></a>
-                        } else
+                        }
+                        else
                         {
-                            if (Current.UserIsLoggedIn && Current.LoggedInUser!.UserIsPartyLeader)
+                            if (Current.UserIsLoggedIn && Current.LoggedInUser!.UserIsPartyLeader && tmpElection.Status == ElectionStatus.Scheduled)
                             {
                                 <a asp-controller="ElectableMember" asp-action="Index" asp-route-pId=@tmpElection.ElectionId><img src="~/svg-icons/candidates-icon.svg" alt="select candidates icon" /></a>
                             }
