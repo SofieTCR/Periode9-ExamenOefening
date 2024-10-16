@@ -189,6 +189,7 @@
         public static List<Election> GetList(List<ElectionStatus>? pStatus = null
                                            , int? pMaxNumber = null
                                            , SortOrder pSortOrder = SortOrder.NONE
+                                           , List<int>? pElectionIds = null
                                            , bool pIncludingDescription = false )
         {
             List<Election> tmpElections = new List<Election>();
@@ -220,6 +221,17 @@
 
                 // Combine status conditions with OR logic
                 tmpQuery += " AND (" + string.Join(" OR ", tmpStatusConditions) + ")";
+            }
+
+            if (pElectionIds != null && pElectionIds.Count != 0)
+            {
+                var partyParms = pElectionIds.Select((id, index) => $"@pElectionIds_{index}_").ToList();
+                tmpQuery += " AND `election`.Id IN (" + string.Join(", ", partyParms) + ")";
+
+                for (int i = 0; i < pElectionIds.Count; i++)
+                {
+                    tmpParameters.Add($"@pElectionIds_{i}_", pElectionIds[i]);
+                }
             }
 
             if (pSortOrder == SortOrder.ASC)

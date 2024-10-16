@@ -5,8 +5,11 @@ namespace OnlineElectionControl.Models
     {
         public List<(User user, ElectableMember? electableMember)> SortedMembers;
 
+        public int ElectionId;
+
         public ElectableMemberModel(int pPartyId, Election pElection)
         {
+            ElectionId = (int) pElection.ElectionId!;
             var tmpMembers = User.GetList(pIsEligible: true
                                         , pReferenceDate: pElection.Date
                                         , pPartyIds: new List<int> { pPartyId }
