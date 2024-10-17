@@ -83,13 +83,20 @@ namespace OnlineElectionControl.Controllers
                 }
             }
 
-            foreach(var tmpEmail in tmpEmails)
+            try
             {
-                await _emailService.SendEmailAsync(tmpEmail.ToEmail, tmpEmail.Subject, tmpEmail.Body);
+                foreach (var tmpEmail in tmpEmails)
+                {
+                    await _emailService.SendEmailAsync(tmpEmail.ToEmail, tmpEmail.Subject, tmpEmail.Body);
+                }
+                TempData["Vml"] = new string[] { $"{tmpEmails.Count} email(s) succesvol verzonden!" };
+                return RedirectToAction("Index", "Home");
             }
-
-            TempData["Vml"] = new string[] { $"{tmpEmails.Count} email(s) succesvol verzonden!" };
-            return RedirectToAction("Index", "Home");
+            catch
+            {
+                TempData["Vml"] = new string[] { $"Er is iets fout gegaan bij het verzenden van de emails!" };
+                return RedirectToAction("Index", "Home");
+            }
         }
     }
 }
