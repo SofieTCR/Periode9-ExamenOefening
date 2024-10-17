@@ -1,0 +1,31 @@
+﻿@model SendEmailModel;
+@using OnlineElectionControl.Classes;
+@using System.Linq;
+@{
+    ViewData["Title"] = "SendEmail";
+}
+
+<div id="party_member_main">
+    <div id="party_member_form_box">
+        <h1 class="party_members_h1">Verkiezingen</h1>
+
+        <form id="Party_Member_Form" asp-controller="SendEmail" asp-action="AttemptSendEmail" method="post">
+            <div class="scrollable-list">
+                @foreach (var kvp in Model.Elections)
+                {
+                    <div style="font-weight: 900;">
+                        @kvp.Key
+                    </div>
+                    foreach (var election in kvp)
+                    {
+                        <label>
+                            <input type="checkbox" name="pIds" value=@election.ElectionId /> @election.Name | @election.Date.ToString("dd-MM-yyyy")
+                        </label>
+                    }
+                }
+            </div>
+            <input type="submit" value="Emails Versturen" id="vote_save_btn" />
+            
+        </form>
+    </div>
+</div>

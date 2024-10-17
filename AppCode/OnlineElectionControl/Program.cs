@@ -1,3 +1,5 @@
+using OnlineElectionControl.Classes;
+
 namespace OnlineElectionControl
 {
     public class Program
@@ -16,6 +18,9 @@ namespace OnlineElectionControl
                 options.Cookie.HttpOnly = true;
                 options.Cookie.IsEssential = true;
             });
+
+            builder.Services.Configure<EmailSettings>(builder.Configuration.GetSection("EmailSettings"));
+            builder.Services.AddTransient<EmailService>();
 
             var app = builder.Build();
 
