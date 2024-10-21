@@ -1,4 +1,6 @@
-﻿namespace OnlineElectionControl.Classes
+﻿using System.Security.Cryptography;
+
+namespace OnlineElectionControl.Classes
 {
     public class Vote
     {
@@ -33,6 +35,32 @@
         public List<string> Vml = new List<string>();
 
         // Derived election properties
+
+        /// <summary>
+        /// The object of the relevant Voter.
+        /// </summary>
+        public User Voter
+        {
+            get
+            {
+                if (_voter == null || _voter.UserId != Voter_UserId) _voter = new User(pId: Voter_UserId);
+                return _voter;
+            }
+        }
+        private User? _voter;
+
+        /// <summary>
+        /// The Object of the relevant Electable Member.
+        /// </summary>
+        public ElectableMember ElectableMember
+        {
+            get
+            {
+                if (_electableMember == null || _electableMember.User_UserId != ElectedMember_UserId) _electableMember = new ElectableMember(pUserId: ElectedMember_UserId, pElectionId: Voted_ElectionId);
+                return _electableMember;
+            }
+        }
+        private ElectableMember? _electableMember;
 
         // Constructors
 
@@ -167,12 +195,21 @@
             return false;
         }
 
-        public static List<Vote> GetList(List<string>? pCities = null
+        public static List<Vote> GetList(bool pIncludingVoter = false
+                                       , bool pIncludingElectableMember = false
+                                       , List<string>? pCities = null
                                        , List<int>? pPartyIds = null
                                        , List<int>? pElectableMemberIds = null
                                        , List<int>? pElectionIds = null)
         {
             List<Vote> tmpVotes = new List<Vote>();
+            List<User> tmpVoters = new List<User>();
+            List<ElectableMember> tmpElectableMembers = new List<ElectableMember>();
+
+            if (pIncludingElectableMember) tmpParties = Party.GetList(pPartyIds: pPartyIds);
+            if (pIncludingUser) tmpUsers = User.GetList(pIsEligible: true
+                                                      , pPartyIds: pPartyIds
+                                                      , pIncludingNonMembers: false);
 
             var tmpQuery = @"SELECT v.Voter_UserId,
                                     v.Voted_ElectionId,
