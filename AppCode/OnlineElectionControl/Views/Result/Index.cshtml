@@ -1,0 +1,17 @@
+﻿@model ResultModel;
+@using OnlineElectionControl.Classes;
+@{
+    ViewData["Title"] = "Result";
+}
+
+<h1>Resultaten</h1>
+<h2>@Model.Results[0].ElectionName - @Model.Results[0].ElectionDate.ToString("dd/MM/yyyy")</h2>
+
+<ul>
+    @foreach (var result in Model.Results)
+    {
+        <li>
+            @result.ElectableMemberFullName from @result.ElectableMemberCity
+        </li>
+    }
+</ul>
