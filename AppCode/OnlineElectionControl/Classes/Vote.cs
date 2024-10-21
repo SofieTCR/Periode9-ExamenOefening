@@ -62,6 +62,16 @@ namespace OnlineElectionControl.Classes
         }
         private ElectableMember? _electableMember;
 
+        public Election Election
+        {
+            get
+            {
+                if (_election == null || _election.ElectionId != Voted_ElectionId) _election = new Election(pId: Voted_ElectionId);
+                return _election;
+            }
+        }
+        private Election? _election;
+
         // Constructors
 
         /// <summary>
@@ -74,7 +84,9 @@ namespace OnlineElectionControl.Classes
              : this(pVoter_UserId: pVoter_UserId
                   , pVoted_ElectionId: pVoted_ElectionId
                   , pElectedMember_UserId: pElectedMember_UserId
-                  , pTempParameter: false)
+                  , pVoter: null
+                  , pElectableMember: null
+                  , pElection: null)
         { }
 
         /// <summary>
@@ -110,11 +122,15 @@ namespace OnlineElectionControl.Classes
         private Vote(int pVoter_UserId
                    , int pVoted_ElectionId
                    , int pElectedMember_UserId
-                   , bool pTempParameter)
+                   , User? pVoter
+                   , ElectableMember? pElectableMember
+                   , Election? pElection)
         {
             Voter_UserId = pVoter_UserId;
             Voted_ElectionId = pVoted_ElectionId;
             ElectedMember_UserId = pElectedMember_UserId;
+            _voter = pVoter;
+            _electableMember = pElectableMember;
         }
 
         // Public Methods
@@ -195,8 +211,9 @@ namespace OnlineElectionControl.Classes
             return false;
         }
 
-        public static List<Vote> GetList(bool pIncludingVoter = false
-                                       , bool pIncludingElectableMember = false
+        public static List<Vote> GetList(bool pIncludingVoters = true
+                                       , bool pIncludingElectableMembers = true
+                                       , bool pIncludingElections = true
                                        , List<string>? pCities = null
                                        , List<int>? pPartyIds = null
                                        , List<int>? pElectableMemberIds = null
@@ -205,11 +222,14 @@ namespace OnlineElectionControl.Classes
             List<Vote> tmpVotes = new List<Vote>();
             List<User> tmpVoters = new List<User>();
             List<ElectableMember> tmpElectableMembers = new List<ElectableMember>();
+            List<Election> tmpElections = new List<Election>();
 
-            if (pIncludingElectableMember) tmpParties = Party.GetList(pPartyIds: pPartyIds);
-            if (pIncludingUser) tmpUsers = User.GetList(pIsEligible: true
-                                                      , pPartyIds: pPartyIds
-                                                      , pIncludingNonMembers: false);
+            if (pIncludingVoters) tmpVoters = User.GetList();
+            if (pIncludingElectableMembers) tmpElectableMembers = ElectableMember.GetList(pIncludingParty: true
+                                                                                       , pIncludingUser: true
+                                                                                       , pPartyIds: pPartyIds
+                                                                                       , pElectionIds: pElectionIds);
+            if (pIncludingElections) tmpElections = Election.GetList(pElectionIds: pElectionIds);
 
             var tmpQuery = @"SELECT v.Voter_UserId,
                                     v.Voted_ElectionId,
@@ -217,8 +237,8 @@ namespace OnlineElectionControl.Classes
                                 voter.City,
                               elected.Party_PartyId
                                FROM `vote` v
-                               JOIN user voter ON voter.UserId = v.Voter_UserId
-                               JOIN user elected ON elected.UserId = v.ElectedMember_UserId;
+                               JOIN user voter ON voter.Id = v.Voter_UserId
+                               JOIN user elected ON elected.Id = v.ElectedMember_UserId
                               WHERE 1";
 
             var tmpParameters = new Dictionary<string, object> { };
@@ -274,10 +294,13 @@ namespace OnlineElectionControl.Classes
             foreach (var tmpElectableMember in tmpResultList)
             {
                 tmpVotes.Add(
-                    new Vote(pVoter_UserId: (int) tmpElectableMember[nameof(Voter_UserId)]
-                           , pVoted_ElectionId: (int) tmpElectableMember[nameof(Voted_ElectionId)]
-                           , pElectedMember_UserId: (int) tmpElectableMember[nameof(ElectedMember_UserId)]
-                           , pTempParameter: false
+                    new Vote(pVoter_UserId: (int)tmpElectableMember[nameof(Voter_UserId)]
+                           , pVoted_ElectionId: (int)tmpElectableMember[nameof(Voted_ElectionId)]
+                           , pElectedMember_UserId: (int)tmpElectableMember[nameof(ElectedMember_UserId)]
+                           , pVoter: pIncludingVoters ? tmpVoters.FirstOrDefault(user => user.UserId == (int)tmpElectableMember[nameof(Voter_UserId)]) : null
+                           , pElectableMember: pIncludingElectableMembers ? tmpElectableMembers.FirstOrDefault(e => e.User_UserId == (int)tmpElectableMember[nameof(ElectedMember_UserId)] 
+                                                                                                           && e.Election_ElectionId == (int)tmpElectableMember[nameof(Voted_ElectionId)]) : null
+                           , pElection: pIncludingElections ? tmpElections.FirstOrDefault(e => e.ElectionId == (int)tmpElectableMember[nameof(Voted_ElectionId)]) : null
                 ));
             }
 

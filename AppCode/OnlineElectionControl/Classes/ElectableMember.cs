@@ -52,7 +52,7 @@
         /// <summary>
         /// The object of the relevant Election
         /// </summary>
-        public Party? Party
+        public Party Party
         {
             get
             {

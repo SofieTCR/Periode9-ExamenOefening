@@ -5,13 +5,30 @@
 }
 
 <h1>Resultaten</h1>
-<h2>@Model.Results[0].ElectionName - @Model.Results[0].ElectionDate.ToString("dd/MM/yyyy")</h2>
+<h2>@Model.Election.Name - @Model.Election.Date.ToString("dd-MM-yyyy")</h2>
 
 <ul>
-    @foreach (var result in Model.Results)
+    @foreach (var result in Model.VotesPerPartyPerMember)
     {
-        <li>
-            @result.ElectableMemberFullName from @result.VoterCity from @result.PartyName
-        </li>
+        <h1>@result.Key</h1>
+            @foreach(var votes in result.Value)
+            {
+                <li>
+                @votes.Key.FirstName @votes.Key.LastName - @votes.Value.Count Votes
+                </li >
+           }
+    }
+</ul>
+<br /><br /><br />brrr<br />
+<ul>
+    @foreach (var result in Model.VotesPerCityPerParty)
+    {
+        <h1>@result.Key</h1>
+        @foreach (var votes in result.Value)
+        {
+            <li>
+                @votes.Key.Name - @votes.Value.Count Votes
+            </li>
+        }
     }
 </ul>
