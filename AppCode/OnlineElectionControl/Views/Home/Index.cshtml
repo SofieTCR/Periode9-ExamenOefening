@@ -20,7 +20,7 @@
                         <br />
                         @tmpElection.Date.ToString("dd-MM-yyyy")
                     </p>
-                    <a href="#"><img src="~/svg-icons/graph-icon.svg" alt="results icon"/></a>
+                    <a asp-controller="Result" asp-action="Index" asp-route-pid="@tmpElection.ElectionId"><img src="~/svg-icons/graph-icon.svg" alt="results icon" /></a>
                 </div> 
                 
             }
